@@ -5,7 +5,7 @@
 
 ### Elevator pitch
 
-CultureConnect is an interactive platform that helps users learn and test their cultural knowledge. Imagine Dulingo, but for culture: instead of just langauges, users learn the different greetings, values, traditions, taboos, and key historical facts. Information is gathered from trusted online sites, with highly ranked users
+CultureConnect is an interactive platform that helps users learn and test their cultural knowledge. Imagine Dulingo, but for culture: instead of just langauges, users learn the different greetings, values, traditions, taboos, and key historical facts. Information is gathered from trusted online sites, with user ability to suggest edits that would be reviewed by team before updating. Users can quiz themselves after learning about any country and then compare their scores with that of other users.
 
 ### Design
 
@@ -23,26 +23,27 @@ sequenceDiagram
   U->>F: Submit final quiz
   F->>S: POST /quiz/submit {score}
   S->>WS: publish {user, score}
-  WS-->>F: push {you placed #N}
+  WS-->>F: push {you placed RANK}
   WS-->>F2: push {A scored X in Country Y}
 ```
 
 ### Key features
 
-- Describe your key feature
-- Describe your key feature
-- Describe your key feature
+- Interactive World Map: Click on a country to learn about it
+- Dynamic data: pull real cultulral information through third party APIs
+- Authorization: User can register and login to save progress.
+- Scoreboard: comparing score with other users through real time updates using websocket.
 
 ### Technologies
 
 I am going to use the required technologies in the following ways.
 
-- **HTML** - Description here
-- **CSS** - Description here
-- **React** - Description here
-- **Service** - Description here
-- **DB/Login** - Description here
-- **WebSocket** - Description here
+- **HTML** - Structured layout for the site: map page, register/login, quizzez page, scoreboard
+- **CSS** - responsive design to work on laptops and phones, matching colors, consistent branding
+- **React** - Provides login, interactive map, answer choosing, comparing and showing others scores
+- **Service** - Backend endpoints include: register/ login/ fetch data for country/ save quiz score/ pulling scores
+- **DB/Login** - store users, quiz scores, user ranks, cultural data
+- **WebSocket** - real time scoreboard updates
 
 ## 🚀 AWS deliverable
 
