@@ -11,9 +11,13 @@ CultureConnect is an interactive platform that helps users learn and test their 
 
 ![map image](images/map.png)
 <br>
+<br>
 ![quiz image](images/quiz.png)
 <br>
+<br>
 ![scoreboard image](images/scoreboard.png)
+<br>
+<br>
 <br>
 
 ```mermaid
