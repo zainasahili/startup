@@ -19,9 +19,11 @@ No problems worked just like it said in the [instruction](https://github.com/web
 
 ## HTML
 
-This was easy. I was careful to use the correct structural elements such as header, footer, main, nav, and form. The links between the three views work great using the `a` element.
+I just finished the HTML excercise, and here are some useful functions to remember:
 
-The part I didn't like was the duplication of the header and footer code. This is messy, but it will get cleaned up when I get to React.
+for links: <a><href></a><href>
+for images: <img src = >
+for tables: <table><tr><th></th></tr></table>
 
 ## CSS
 
