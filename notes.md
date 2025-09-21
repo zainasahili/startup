@@ -25,6 +25,16 @@ for links: <a><href></a><href>
 for images: <img src = >
 for tables: <table><tr><th></th></tr></table>
 
+Created 6 pages.
+Linked my GitHub Repo
+Placeholders added for:
+- Interactive SVG map
+- Quiz engine
+- Database table / saved scores
+- WebSocket realtime feed
+- Authentication (register/login forms)
+
+
 ## CSS
 
 This took a couple hours to get it how I wanted. It was important to make it responsive and Bootstrap helped with that. It looks great on all kinds of screen sizes.
