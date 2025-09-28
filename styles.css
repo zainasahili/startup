@@ -8,3 +8,12 @@
     --text3: #898989;
     --shadow: 0 4px 12px rgba(0,0,0,0.05); 
 }
+
+/* basic body setup*/
+body {
+    margin: 0;
+    font-family: 'Times New Roman', Times, serif;
+    background-color: p_b;
+    color: var(--text);
+    line-height: 1.5;
+}
