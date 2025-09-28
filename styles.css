@@ -1,0 +1,10 @@
+/* CSS variables for easier use */
+:root {
+    --brand: #428197;
+    --brand2: #306578;
+    --p_b: #dfddcb;
+    --text: #3f3f3f;
+    --text2: #5d5c5c;
+    --text3: #898989;
+    --shadow: 0 4px 12px rgba(0,0,0,0.05); 
+}
