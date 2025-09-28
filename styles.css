@@ -19,9 +19,27 @@ body {
 }
 
 
-/* head setup*/
+/* header setup*/
 header {
     background-color: linear-gradient(45deg, var(--brand), var(--brand2));
     color : var(--text3);
 }
 
+/*header h1 setup*/
+header h1{
+    margin: 0;
+    font-size: 1.5rem;
+}
+
+/* navigartion setup*/
+nav a{
+    color: var(--text3);
+    margin-left: 1rem;
+    font-weight: bold;
+}
+
+nav a:hover{
+    text-decoration: underline;
+}
+
+nav 
