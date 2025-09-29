@@ -70,3 +70,22 @@ th, td{
     text-align: center;
 }
 
+/*forms setup*/
+
+input, button{
+    padding: 0.6rem;
+    border: px solid #a3a1a1;
+    font: inherit;
+}
+
+button{
+    background: var(--brand);
+    color: whitesmoke;
+    cursor: pointer;
+    border: none;
+}
+
+button:hover{
+    background-color: var(--brand2);
+}
+
