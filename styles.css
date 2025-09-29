@@ -93,6 +93,10 @@ th, td{
 
 /*forms setup*/
 
+form input{
+        margin-bottom: 10px;
+    }
+
 input, button{
     padding: 0.6rem;
     border: px solid #a3a1a1;
@@ -145,6 +149,7 @@ footer{
     }
 
     nav{
-        margin-top: 0.5rem;
+        margin-top: 1rem;
     }
+
 }
