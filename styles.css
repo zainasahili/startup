@@ -2,9 +2,9 @@
 :root {
     --brand: #ca92cf;
     --brand2: #6e3972;
-    --brand-y: #f3f9a9;
-    --p_b: #f3ecf7;
-    --card: #f6effa;
+    --brand-y: #f8ffad;
+    --p_b: hsl(60, 75%, 98%);
+    --card: #fffff3;
     --text: #3f3f3f;
     --text2: #747373ca;
     --text3: #a3a1a1;
