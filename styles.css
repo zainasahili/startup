@@ -1,11 +1,11 @@
 /* CSS variables for easier use */
 :root {
     --brand: #428197;
-    --brand2: #306578;
+    --brand2: #2d5e70;
     --p_b: #f7f7f3;
-    --card: #f4f4e2;
+    --card: #f1f1e9;
     --text: #3f3f3f;
-    --text2: #5d5c5c;
+    --text2: #747373ca;
     --text3: #a3a1a1;
     --shadow: 0 4px 12px rgba(0,0,0,0.05); 
     --radius: 10px;
@@ -13,23 +13,21 @@
 
 /* basic body setup*/
 body {
-    margin: 0;
-    font-family: Helvetica, sans-serif;
+    margin-left: 0.3rem;
+    font-family: Copperplate, fantasy;
     background: var(--p_b);
-    color: var(--text);
+    color: var(--brand);
     line-height: 1.5;
 }
 
 
 /* header setup*/
 header {
-    margin-left: 0.5rem;
     color : var(--brand2);
 }
 
 /*header h1 setup*/
 header h1{
-    margin: 0;
     font-size: 1.5rem;
 }
 
@@ -39,15 +37,30 @@ header h4{
 }
 
 /* navigartion setup*/
+
+nav{
+    margin-left: 0.5rem;
+}
+
 nav a{
-    color: var(--text3);
-    margin-left: 1rem;
+    color: var(--text2);
+    margin-right: 1rem;
     font-weight: bold;
 }
 
-nav a:hover{
-    text-decoration: underline;
+/*general link style*/
+a {
+    color: var(--brand1);
+    margin-right: 1rem;
+    font-weight: bold;
+    text-decoration: none;
 }
+
+a .hover{
+    text-decoration: underline;
+    color: var(--brand2);
+}
+
 
 /* main setup*/
 main {
@@ -69,11 +82,11 @@ h2 {
 /*tables setup*/
 
 table{
-    width: 100%;
+    width: auto;
 }
 
 th, td{
-    padding: 75rem;
+    padding: .75rem;
     border: 1px solid var(--brand);
     text-align: center;
 }
@@ -100,14 +113,24 @@ button:hover{
 /*image setup*/
 
 img{
+
     max-width: 100%;
     height: auto;
+    margin: 0 auto;
 }
+
+.center-image {
+  display: block;          /* images are inline by default, this makes them block-level */
+  margin: 0 auto;          /* equal left/right margins → centers horizontally */
+  max-width: 80%;          /* optional: keeps image responsive */
+  height: auto;            /* maintains aspect ratio */
+}
+
 
 /*footer setup*/
 
 footer{
-    text-align: center;
+    text-align: left;
     padding: 1rem;
     font-size: 0.9rem;
     color: var(--text2);
