@@ -89,3 +89,20 @@ button:hover{
     background-color: var(--brand2);
 }
 
+/*image setup*/
+
+img{
+    max-width: 100%;
+    height: auto;
+}
+
+/*footer setup*/
+
+footer{
+    text-align: center;
+    padding: 1rem;
+    font-size: 0.9rem;
+    color: var(--text2);
+}
+
+
