@@ -1,10 +1,10 @@
 /* CSS variables for easier use */
 :root {
-    --brand: #ca92cf;
+    --brand: #ac64b1;
     --brand2: #6e3972;
-    --brand-y: #f8ffad;
+    --brand-y: #fafec8;
     --p_b: hsl(60, 75%, 98%);
-    --card: #fffff3;
+    --card: #feffed;
     --text: #3f3f3f;
     --text2: #747373ca;
     --text3: #a3a1a1;
@@ -24,17 +24,18 @@ body {
 
 /* header setup*/
 header {
-    color : var(--brand2);
+    background-color : var(--brand-y);
+    color: var(--brand2);
+    border-radius: var(--radius);
 }
 
 /*header h1 setup*/
 header h1{
-    font-size: 1.5rem;
+    margin-left: 0.5rem;
 }
 
-/*header h4 setup*/
-header h4{
-    margin-left: 0.4rem;
+header p{
+    margin-left: 1rem;
 }
 
 /* navigartion setup*/
@@ -134,14 +135,27 @@ img{
 /*footer setup*/
 
 footer{
+    background-color: var(--brand-y);
     text-align: left;
     padding: 1rem;
     font-size: 0.9rem;
-    color: var(--text2);
+    color: var(--brand2);
+    border-radius: var(--radius);
+}
+
+footer table{
+    width: 100%;
+    color: var(--brand);
+}
+
+.footer-table th,
+.footer-table td {
+  text-align: left;
+  padding: 8px;  
+  border: 0px;
 }
 
 /*repsonsive design for screen size change*/
-
 @media (max-with: 768px) {
     header .container{
         flex-direction: column;
