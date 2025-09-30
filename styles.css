@@ -156,7 +156,7 @@ footer table{
 }
 
 /*repsonsive design for screen size change*/
-@media (max-with: 768px) {
+@media (max-width: 768px) {
     header{
         display: none;
     }
