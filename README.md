@@ -84,6 +84,14 @@ For this deliverable I did the following. I checked the box `[x]` and added a de
 - [x] **Application text content**
 - [x] **Application images**
 
+- Created a "styles.css" and linked it to all HTML pages
+- Styled the **header, footer, and navigation** with a gradient background and responsive layout.  
+- Styled **main sections** (APIs, Database Data, WebSocket data, etc.) with card backgrounds and shadows.  
+- Added **table styling** so database placeholder looks clean.  
+- Styled **forms and buttons** with consistent padding and colors.  
+- Ensured **images** resize properly and have rounded corners.  
+- Added a **responsive design rule**: when the screen is smaller than 768px, the navigation and header stack vertically.  
+
 ## 🚀 React part 1: Routing deliverable
 
 For this deliverable I did the following. I checked the box `[x]` and added a description for things I completed.
