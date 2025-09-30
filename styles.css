@@ -157,13 +157,22 @@ footer table{
 
 /*repsonsive design for screen size change*/
 @media (max-with: 768px) {
-    header .container{
-        flex-direction: column;
-        align-items: flex-start;
+    header{
+        display: none;
     }
 
     nav{
         margin-top: 1rem;
     }
+}
 
+.placeholders {
+  display: flex;
+  flex-wrap: wrap;         /* allow wrapping if screen too small */
+  gap: 20px;               /* spacing between items */
+}
+
+.placeholders section {
+  flex: 1;                 /* each section takes equal space */
+  min-width: 250px;        /* don’t shrink too small */
 }
