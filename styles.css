@@ -157,12 +157,8 @@ footer table{
 
 /*repsonsive design for screen size change*/
 @media (max-width: 768px) {
-    header{
-        display: none;
-    }
-
     nav{
-        margin-top: 1rem;
+        display: none;
     }
 }
 
