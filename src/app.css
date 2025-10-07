@@ -13,7 +13,7 @@
 }
 
 /* basic body setup*/
-body {
+.body {
     margin-left: 0.3rem;
     font-family: Copperplate, fantasy;
     background: var(--p_b);
