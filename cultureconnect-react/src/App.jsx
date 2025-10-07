@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter, NavLink, Routes, Route } from "react-router-dom";
+import { BrowserRouter, NavLink,Navigate, Routes, Route } from "react-router-dom";
 import {Login} from "./pages/login";
 import {Map} from "./pages/map";
 import {Quiz} from "./pages/quiz";
@@ -45,10 +45,11 @@ export default function App() {
         </header>
 
         <Routes>
+                  <Route path="/index.html" element={<Navigate to="/" replace />} />
+                  <Route path='/' element={<Home />} />
                   <Route path='/login' element={<Login />} />
                   <Route path='/quiz' element={<Quiz />} />
                   <Route path='/scoreboard' element={<Scoreboard />} />
-                  <Route path='/' element={<Home />} />
                   <Route path='/map' element={<Map />} />
                   <Route path='*' element={<NotFound />} />
         </Routes>
