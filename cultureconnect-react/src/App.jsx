@@ -35,6 +35,11 @@ export default function App() {
                     Login / Register
                 </NavLink>
                 </li>
+                <li className="nav-item">
+                <NavLink className="nav-link" to="map">
+                    Map
+                </NavLink>
+                </li>
             </menu>
         </nav>
         </header>
