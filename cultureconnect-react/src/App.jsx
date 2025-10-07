@@ -10,8 +10,8 @@ import './app.css'
 export default function App() {
   return (
    <BrowserRouter>
-    <div className="body bg-dark text-light">
-        <header className="navbar navbar-dark bg-dark px-3">
+    <div className="body">
+        <header>
         <h1 className="navbar-brand">CultureConnect</h1>
         <nav>
             <menu className="navbar-nav">

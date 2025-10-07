@@ -2,7 +2,7 @@ import React from 'react';
 
 export function Login() {
   return (
-    <main className="container-fluid bg-secondary text-center">
+    <main >
       <section>
             <h2>Login</h2>
             <form id="login-from">   

@@ -2,7 +2,7 @@ import React from 'react';
 
 export function Map() {
   return (
-    <main className="container-fluid bg-secondary text-center">
+    <main>
       <p>This page will show an interactive SVG world map. For now it's a placeholder image</p>
       <img src="public/worldmap.png" alt="World map" className="center-image" />
         <section>

@@ -2,7 +2,7 @@ import React from 'react';
 
 export function Quiz() {
   return (
-    <main className="container-fluid bg-secondary text-center">
+    <main>
        <p>The daily quiz will show here but for now it's a placeholder</p>
         <form className = "quiz">
             <fieldset>

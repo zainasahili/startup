@@ -2,7 +2,7 @@ import React from 'react';
 
 export function Scoreboard() {
   return (
-    <main className="container-fluid bg-secondary text-center">
+    <main>
       <p> This page will show top live scores of all users. Below is a static placeholder and a spot for a live chart.</p>
         <ul id="score-list">
             <li>Alice — Japan — 85</li>

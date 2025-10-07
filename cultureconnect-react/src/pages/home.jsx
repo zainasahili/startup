@@ -2,7 +2,7 @@ import React from 'react';
 
 export function Home() {
   return (
-    <main className="container-fluid bg-secondary text-center">
+    <main>
       <section id="overview">
         <h2>App overview</h2>
         <p>CultureConnect helps users learn and test cultural knowledge around the world — greetings, taboos, traditions, and more</p>
