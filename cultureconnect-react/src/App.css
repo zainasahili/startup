@@ -14,13 +14,19 @@
 
 /* basic body setup*/
 .body {
-    margin-left: 0.3rem;
+    /* margin-left: 0.3rem; */
     font-family: Copperplate, fantasy;
     background: var(--p_b);
     color: var(--brand2);
     line-height: 1.5;
 }
 
+menu {
+  flex: 1;
+  display: flex;
+  flex-direction: row !important;
+  list-style: none;
+}
 
 /* header setup*/
 header {
@@ -39,11 +45,6 @@ header p{
 }
 
 /* navigartion setup*/
-
-nav{
-    margin-left: 0.5rem;
-}
-
 nav a{
     color: var(--brand);
     margin-right: 1rem;
