@@ -21,6 +21,11 @@ export default function App() {
                 </NavLink>
                 </li>
                 <li className="nav-item">
+                <NavLink className="nav-link" to="map">
+                    Interactive Map
+                </NavLink>
+                </li>
+                <li className="nav-item">
                 <NavLink className="nav-link" to="quiz">
                     Daily Quiz
                 </NavLink>
@@ -35,11 +40,7 @@ export default function App() {
                     Login / Register
                 </NavLink>
                 </li>
-                <li className="nav-item">
-                <NavLink className="nav-link" to="map">
-                    Map
-                </NavLink>
-                </li>
+                
             </menu>
         </nav>
         </header>
