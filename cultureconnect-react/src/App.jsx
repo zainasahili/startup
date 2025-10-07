@@ -16,27 +16,27 @@ export default function App() {
         <nav>
             <menu className="navbar-nav">
                 <li className="nav-item">
-                <NavLink className="nav-link" to="/">
+                <NavLink to="/"  className={({ isActive }) => isActive ? 'active-link' : 'nav-link'}>
                     Home
                 </NavLink>
                 </li>
                 <li className="nav-item">
-                <NavLink className="nav-link" to="map">
+                <NavLink to="map" className={({ isActive }) => isActive ? 'active-link' : 'nav-link'}> 
                     Interactive Map
                 </NavLink>
                 </li>
                 <li className="nav-item">
-                <NavLink className="nav-link" to="quiz">
+                <NavLink to="quiz"  className={({ isActive }) => isActive ? 'active-link' : 'nav-link'}>
                     Daily Quiz
                 </NavLink>
                 </li>
                 <li className="nav-item">
-                <NavLink className="nav-link" to="scoreboard">
+                <NavLink to="scoreboard"  className={({ isActive }) => isActive ? 'active-link' : 'nav-link'}>
                     ScoreBoard
                 </NavLink>
                 </li>
                 <li className="nav-item">
-                <NavLink className="nav-link" to="login">
+                <NavLink to="login" className={({ isActive }) => isActive ? 'active-link' : 'nav-link'}>
                     Login / Register
                 </NavLink>
                 </li>

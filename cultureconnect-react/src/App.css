@@ -60,6 +60,20 @@ a:hover{
     color: var(--brand2);
 }
 
+/* NavLink setup */
+
+.nav-link {
+  color: var(--brand);
+}
+
+
+.active-link {
+  color: var(--brand2);
+  /* border-radius: 5px; */
+}
+
+
+
 
 /* main setup*/
 main {
