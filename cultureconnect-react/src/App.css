@@ -72,8 +72,15 @@ a:hover{
   /* border-radius: 5px; */
 }
 
+/* quiz format */
+.quiz {
+    width: 50%;
+}
 
-
+.quiz_submit{
+    margin-top: 1rem;
+    width: 30%;
+}
 
 /* main setup*/
 main {
