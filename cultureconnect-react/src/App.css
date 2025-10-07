@@ -66,6 +66,10 @@ main {
     padding: 2rem 0;
 }
 
+p {
+    color: var(--brand);
+}
+
 section {
     background-color: var(--card);
     padding: 1rem;
