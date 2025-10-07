@@ -54,12 +54,17 @@ export default function App() {
                   <Route path='*' element={<NotFound />} />
         </Routes>
 
-        <footer className="bg-dark text-white-50">
+        <footer className="footer-table">
             <div className="container-fluid">
             <span className="text-reset"></span>
-            <a className="text-reset" href="https://github.com/zainasahili/startup">
-                My GitHub Repo
-            </a>
+            <table><thead>
+                <tr>
+                    <th>Created by Zaina Al-Sahili</th>
+                    <th><a className="text-reset" href="https://github.com/zainasahili/startup"> My GitHub Repo</a></th>
+                    <th>&copy; 2025 CultureConnect</th>
+                </tr>
+            </thead></table>
+            
             </div>
         </footer>
     </div>

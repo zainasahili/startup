@@ -139,7 +139,7 @@ footer{
     background-color: var(--brand-y);
     text-align: left;
     padding: 1rem;
-    font-size: 0.9rem;
+    font-size: 1rem;
     color: var(--brand2);
     border-radius: var(--radius);
 }
