@@ -4,6 +4,17 @@ export function Login() {
   return (
     <main className="container-fluid bg-secondary text-center">
       <section>
+            <h2>Login</h2>
+            <form id="login-from">   
+                <label for="l-email">email</label>
+                <input id="l-email"name="email" placeholder="Your email" required />
+                <label for="l-password">Password</label>
+                <input id="l-password"name="password" placeholder="password" required />
+                <button type="submit">Login</button>
+            </form>
+      </section>
+      <p>Don't have an account? Regsiter below!</p>
+      <section>
             <h2>Register</h2>
             <form id="register-from">   
                 <label for="r-name">Userame</label>
@@ -12,17 +23,7 @@ export function Login() {
                 <input id="r-email"name="email" placeholder="Your email" required />
                 <label for="r-password">Password</label>
                 <input id="r-password"name="password" placeholder="new password" required />
-                <button type="submit">Create account (placeholder)</button>
-            </form>
-        </section>
-        <section>
-            <h2>Login</h2>
-            <form id="login-from">   
-                <label for="l-email">email</label>
-                <input id="l-email"name="email" placeholder="Your email" required />
-                <label for="l-password">Password</label>
-                <input id="l-password"name="password" placeholder="password" required />
-                <button type="submit">Login (placeholder)</button>
+                <button type="submit">Create account</button>
             </form>
         </section>
     </main>
