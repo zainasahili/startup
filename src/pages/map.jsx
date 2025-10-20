@@ -7,14 +7,33 @@ const geoUrl = "https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json";
 export function Map() {
 
   const [hoveredCountry, setHoveredCountry] = useState('');
+  const [tooltipPosition, setTooltipPosition] = useState({ x: 0, y: 0 });
+
 
   return (
     <main>
       <p>Hover over a country to see its name. Click functionality coming soon!</p>
 
-      <div style={{ textAlign: 'center', marginBottom: '10px', fontWeight: 'bold' }}>
-        {hoveredCountry && <span>{hoveredCountry}</span>}
-      </div>
+      {hoveredCountry && (
+        <div
+          style={{
+            position: 'absolute',
+            top: tooltipPosition.y,
+            left: tooltipPosition.x,
+            transform: 'translate(-50%, -120%)',
+            background: '#6e3972',
+            color: '#fafec8',
+            padding: '4px 8px',
+            borderRadius: '6px',
+            pointerEvents: 'none',
+            fontSize: '0.8rem',
+            zIndex: 10,
+            whiteSpace: 'nowrap',
+          }}
+        >
+          {hoveredCountry}
+        </div>
+      )}
 
       <ComposableMap>
         <Geographies geography={geoUrl}>
@@ -26,6 +45,9 @@ export function Map() {
                 onMouseEnter={() => {
                   const countryName = geo.properties.name;
                   setHoveredCountry(countryName);
+                }}
+                onMouseMove={(event) => {
+                  setTooltipPosition({ x: event.clientX, y: event.clientY });
                 }}
                 onMouseLeave={() => {
                   setHoveredCountry('');
