@@ -9,11 +9,14 @@ export function Login() {
     const username = event.target.username.value;
     const password = event.target.password.value;
 
-    const users = JSON.parse(localStorage.getItem('user'));
+    const users = JSON.parse(localStorage.getItem('users')) || [];
+    const matchedUser = users.find(
+      (u) => u.username === username && u.password === password
+    );
 
-    if (users && users.username === username && users.password === password) {
-      localStorage.setItem('loggedInUser', users.username);
-      setLoginMessage(`Welcome back, ${users.username}!`);
+    if (matchedUser) {
+      localStorage.setItem('loggedInUser', matchedUser.username);
+      setLoginMessage(`Welcome back, ${matchedUser.username}!`);
     } else {
       setLoginMessage('Invalid username or password.');
     }
