@@ -6,23 +6,23 @@ export function Login() {
       <section>
             <h2>Login</h2>
             <form id="login-from">   
-                <label for="l-email">email</label>
+                <label htmlFor="l-email">email</label>
                 <input id="l-email"name="email" placeholder="Your email" required />
-                <label for="l-password">Password</label>
-                <input id="l-password"name="password" placeholder="password" required />
+                <label htmlFor="l-password">Password</label>
+                <input id="l-password"name="password" type="password" placeholder="password" required />
                 <button type="submit">Login</button>
             </form>
       </section>
-      <p>Don't have an account? Regsiter below!</p>
+      <p>Don't have an account? Register below!</p>
       <section>
             <h2>Register</h2>
-            <form id="register-from">   
-                <label for="r-name">Userame</label>
+            <form id="register-form">   
+                <label htmlFor="r-name">Userame</label>
                 <input id="r-name"name="name" placeholder="Your username" required />
-                <label for="r-email">email</label>
+                <label htmlFor="r-email">email</label>
                 <input id="r-email"name="email" placeholder="Your email" required />
-                <label for="r-password">Password</label>
-                <input id="r-password"name="password" placeholder="new password" required />
+                <label htmlFor="r-password">Password</label>
+                <input id="r-password"name="password" type="password" placeholder="new password" required />
                 <button type="submit">Create account</button>
             </form>
         </section>
