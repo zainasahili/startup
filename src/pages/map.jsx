@@ -47,7 +47,7 @@ export function Map() {
                   setHoveredCountry(countryName);
                 }}
                 onMouseMove={(event) => {
-                  setTooltipPosition({ x: event.clientX, y: event.clientY });
+                  setTooltipPosition({ x: event.clientX, y: event.clientY + window.scrollY });
                 }}
                 onMouseLeave={() => {
                   setHoveredCountry('');
