@@ -1,13 +1,14 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
 export function Login() {
+  
   return (
     <main >
       <section>
             <h2>Login</h2>
             <form id="login-from">   
-                <label htmlFor="l-email">email</label>
-                <input id="l-email"name="email" placeholder="Your email" required />
+                <label htmlFor="l-user">Username</label>
+                <input id="l-user"name="username" placeholder="Your username" required />
                 <label htmlFor="l-password">Password</label>
                 <input id="l-password"name="password" type="password" placeholder="password" required />
                 <button type="submit">Login</button>
