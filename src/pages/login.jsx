@@ -5,7 +5,7 @@ export function Login() {
   const [registerMessage, setRegisterMessage] = useState('');
 
   function handleLogin(event){
-    event.preventDeafult();
+    event.preventDefault();
     const username = event.target.username.value;
     const password = event.target.password.value;
 
@@ -24,9 +24,9 @@ export function Login() {
     const username = event.target.username.value;
     const password = event.target.password.value;
 
-    const existingUser = users.find((u) => u.username === username);
-
     const users = JSON.parse(localStorage.getItem('users')) || [];
+
+    const existingUser = users.find((u) => u.username === username);
 
     if (existingUser) {
       setRegisterMessage(`Username "${username}" already exists. Please choose another.`);
@@ -45,9 +45,9 @@ export function Login() {
             <h2>Login</h2>
             <form id="login-from" onSubmit={handleLogin}>   
                 <label htmlFor="l-user">Username</label>
-                <input id="l-user"name="username" placeholder="Your username" required />
+                <input id="l-user" name="username" placeholder="Your username" required />
                 <label htmlFor="l-password">Password</label>
-                <input id="l-password"name="password" type="password" placeholder="password" required />
+                <input id="l-password" name="password" type="password" placeholder="password" required />
                 <button type="submit">Login</button>
             </form>
             <p>{loginMessage}</p>
@@ -56,12 +56,12 @@ export function Login() {
       <section>
             <h2>Register</h2>
             <form id="register-form" onSubmit={handleRegister}>   
-                <label htmlFor="r-name">Userame</label>
-                <input id="r-name"name="name" placeholder="Your username" required />
+                <label htmlFor="r-username">Userame</label>
+                <input id="r-username" name="username" placeholder="Your username" required />
                 <label htmlFor="r-email">email</label>
-                <input id="r-email"name="email" placeholder="Your email" required />
+                <input id="r-email" name="email" placeholder="Your email" required />
                 <label htmlFor="r-password">Password</label>
-                <input id="r-password"name="password" type="password" placeholder="new password" required />
+                <input id="r-password" name="password" type="password" placeholder="new password" required />
                 <button type="submit">Create account</button>
             </form>
             <p>{registerMessage}</p>
