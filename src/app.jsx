@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import { BrowserRouter, NavLink,Navigate, Routes, Route } from "react-router-dom";
 import {Login} from "./pages/login";
 import {Map} from "./pages/map";
@@ -8,6 +8,23 @@ import {Home} from "./pages/home";
 import './app.css'
 
 export default function App() {
+    const [showHeader, setShowHeader] = useState(true);
+
+    useEffect(() => {
+    function handleResize() {
+      if (window.innerWidth < 600) {
+        setShowHeader(false);
+      } else {
+        setShowHeader(true);
+      }
+    }
+
+    window.addEventListener('resize', handleResize);
+    handleResize();
+
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   return (
    <BrowserRouter>
     <div className="body">
@@ -61,7 +78,7 @@ export default function App() {
             <table><thead>
                 <tr>
                     <th>Created by Zaina Al-Sahili</th>
-                    <th><a className="text-reset" href="https://github.com/zainasahili/startup"> My GitHub Repo</a></th>
+                    <th><a className="text-reset" href="https://github.com/zainasahili/startup" target="_blank"> My GitHub Repo</a></th>
                     <th>&copy; 2025 CultureConnect</th>
                 </tr>
             </thead></table>
