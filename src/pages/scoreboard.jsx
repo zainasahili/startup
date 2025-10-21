@@ -9,7 +9,7 @@ export function Scoreboard() {
 
   const updateScores = () => {
     const updated = scores.map((player) => ({
-      player: player.name,
+      name: player.name,
       score: player.score + Math.floor(Math.random() * 10) - 3
     }));
     updated.sort((a, b) => b.score - a.score);
