@@ -54,26 +54,11 @@ Placeholders added for:
 
 ## React Part 2: Reactivity
 
-This was a lot of fun to see it all come together. I had to keep remembering to use React state instead of just manipulating the DOM directly.
-
-Handling the toggling of the checkboxes was particularly interesting.
-
-```jsx
-<div className="input-group sound-button-container">
-  {calmSoundTypes.map((sound, index) => (
-    <div key={index} className="form-check form-switch">
-      <input
-        className="form-check-input"
-        type="checkbox"
-        value={sound}
-        id={sound}
-        onChange={() => togglePlay(sound)}
-        checked={selectedSounds.includes(sound)}
-      ></input>
-      <label className="form-check-label" htmlFor={sound}>
-        {sound}
-      </label>
-    </div>
-  ))}
-</div>
-```
+- Built multiple React components (Home, Login, Map, Quiz, Scoreboard) and connected them with React Router for navigation.
+- Used useState to manage component data and useEffect to handle initialization logic (e.g., loading from localStorage).
+- Mocked API responses by returning hardcoded JSON objects that simulate real data.
+- Implemented localStorage to act as a mock database for saving usernames and quiz scores.
+- Created a mock WebSocket setup plan to simulate future live score updates.
+- Added an interactive map using react-simple-maps with hover and click events for user feedback.
+- Built a scoreboard component that updates dynamically and sorts player scores.
+- Designed a mock quiz section with question placeholders and simple scoring logic.
