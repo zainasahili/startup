@@ -1,31 +1,44 @@
-import React, {userState} from 'react';
+import React, {useState} from 'react';
 
 export function Scoreboard() {
   const [scores, setScores] = useState([
-    { name: 'Alice', country: 'Japan', score: 85 },
-    { name: 'Bob', country: 'Morocco', score: 72 },
-    { name: 'Carla', country: 'Brazil', score: 90 },
+    { name: 'Alice', score: 85 },
+    { name: 'Bob', score: 72 },
+    { name: 'Carla', score: 90 },
   ]);
 
   const updateScores = () => {
     const updated = scores.map((player) => ({
-      ...player,
-      score: player.score + Math.floor(Math.random() * 10) - 3, // random small change
+      player: player.name,
+      score: player.score + Math.floor(Math.random() * 10) - 3
     }));
     updated.sort((a, b) => b.score - a.score);
     setScores(updated);
   };
   return (
     <main>
-      <p> This page will show top live scores of all users. Below is a static placeholder and a spot for a live chart.</p>
+      <p> This page will show top live scores of all users. It will be connected to websocket soon!</p>
         <ul id="score-list">
-            <li>Alice — Japan — 85</li>
-            <li>Bob — Morocco — 72</li>
-            <li>Carla — Brazil — 90</li>
+          {scores.map((player, index) => (
+            <li key={index}>
+              {index + 1}. <strong>{player.name}</strong> — {player.score}
+            </li>
+          ))} 
         </ul>
-        <div id="live-chart" style={{border: "1px dashed rgb(135, 83, 148)", padding: "1rem", marginTop: "1rem"}}>
-          WebSocket chart will be embedded here
-        </div>
+      <button onClick={updateScores} style={{ margin: '1px 0', padding: '5px 10px', width:'200px'}}>
+        Refresh Score
+      </button>
+      <div
+        id="live-chart"
+        style={{
+          border: '1px dashed rgb(135, 83, 148)',
+          padding: '1rem',
+          marginTop: '1rem',
+        }}
+      >
+        WebSocket chart will be embedded here later.
+      </div>
+
     </main>
   );
 }
