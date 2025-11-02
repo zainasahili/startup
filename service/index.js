@@ -3,8 +3,10 @@ import cookieParser from 'cookie-parser';
 import bcrypt from 'bcryptjs';
 import { v4 as uuidv4 } from 'uuid';
 import cors from 'cors';
+import dotenv from 'dotenv';
 import OpenAI from "openai"
 
+dotenv.config();
 const port = process.argv.length > 2 ? process.argv[2] : 4000;
 const app = express();
 const openai = new OpenAI({
@@ -61,14 +63,14 @@ app.get('/api/profile', (req, res) => {
     if (!username){
         return res.status(401).json({message: 'Unauthorized'})
     }
-    res.json({username, message: 'Welcome Back ${username}!'});
+    res.json({username, message: `Welcome Back ${username}!`});
 })
 
 app.get('api/scores', (req, res) => {
     res.json(scores.sort((a, b) => b.score - a.score));
 });
 
-app.get('api/info', async(req, res) => {
+app.get('api/info/:name', async(req, res) => {
     const {name} = req.params;
     try {
         const prompt = `
