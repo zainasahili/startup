@@ -66,11 +66,11 @@ app.get('/api/profile', (req, res) => {
     res.json({username, message: `Welcome Back ${username}!`});
 })
 
-app.get('api/scores', (req, res) => {
+app.get('/api/scores', (req, res) => {
     res.json(scores.sort((a, b) => b.score - a.score));
 });
 
-app.get('api/info/:name', async(req, res) => {
+app.get('/api/info/:name', async(req, res) => {
     const {name} = req.params;
     try {
         const prompt = `
