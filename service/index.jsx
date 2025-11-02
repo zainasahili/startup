@@ -43,3 +43,10 @@ app.post('/api/login', async(req, res) => {
     res.cookie('sessionId', sessionId, {httpOnly: true});
     res.json({message: 'Login Successful', username});
 });
+
+app.post('/api/logout', (req, res) => {
+    const {sessionId} = req.cookies;
+    delete sessions[sessionId];
+    res.clearCookie('sessionId');
+    res.json({message: 'Logged Out'})
+})
