@@ -50,3 +50,12 @@ app.post('/api/logout', (req, res) => {
     res.clearCookie('sessionId');
     res.json({message: 'Logged Out'})
 })
+
+app.get('/api/profile', (req, res) => {
+    const {sessionId} = req.cookies;
+    const username = sessions[sessionId];
+    if (!username){
+        return res.status(401).json({message: 'Unauthorized'})
+    }
+    res.json({username, message: 'Welcome Back ${username}!'});
+})
