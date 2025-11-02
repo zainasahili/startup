@@ -59,3 +59,11 @@ app.get('/api/profile', (req, res) => {
     }
     res.json({username, message: 'Welcome Back ${username}!'});
 })
+
+app.get('api/scores', (req, res) => {
+    res.json(scores.sort((a, b) => b.score - a.score));
+});
+
+
+
+app.listen(port, () => console.log('Service running!'))
