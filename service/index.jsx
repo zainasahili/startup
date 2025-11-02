@@ -31,3 +31,15 @@ app.post('/api/register', async(req, res) => {
     res.status(201).json({ message: 'Registered successfully' });
 
 });
+
+app.post('/api/login', async(req, res) => {
+    const {username, password} = req.body;
+    const user = users[username]
+    if (!user || !(await bcrypt.compare(password, user.password))) {
+        return res.status(401).json({ message: 'Invalid credentials' });
+    }
+    const sessionId = uuidv4();
+    sessions[sessionId] = username;
+    res.cookie('sessionId', sessionId, {httpOnly: true});
+    res.json({message: 'Login Successful', username});
+});
