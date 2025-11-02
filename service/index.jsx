@@ -3,9 +3,13 @@ import cookieParser from 'cookie-parser';
 import bcrypt from 'bcryptjs';
 import { v4 as uuidv4 } from 'uuid';
 import cors from 'cors';
+import OpenAI from "openai"
 
 const port = process.argv.length > 2 ? process.argv[2] : 4000;
 const app = express();
+const openai = new OpenAI({
+    apiKey: process.env.OPENAI_API_KEY, 
+})
 
 app.use(express.static('public'));
 app.use(cors())
@@ -64,6 +68,35 @@ app.get('api/scores', (req, res) => {
     res.json(scores.sort((a, b) => b.score - a.score));
 });
 
+app.get('api/info', async(req, res) => {
+    const {name} = req.params;
+    try {
+        const prompt = `
+        Give me a JSON object describing key cultural information about this country ${name}.
+      Include fields:
+      - Main languages
+      - common greetings
+      - core values
+      - important traditions
+      - cultural taboos
+      - 2 key historical facts
+      Keep the answer concise and accurate.
+      `;
 
+      const completion = await openai.chat.completions.create({
+        model: 'gpt-4o-mini',
+        messages: [{role: "user", content: prompt}],
+        response_format: {type: "json_object"}, 
+      })
+
+      const data = JSON.parse(completion.choices[0].message.content);
+      res.json(data);
+    }
+
+    catch (err) {
+        console.error(err);
+        res.status(500).json({ message: "Failed to fetch data from ChatGPT" });
+    }
+});
 
 app.listen(port, () => console.log('Service running!'))
