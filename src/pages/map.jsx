@@ -8,7 +8,29 @@ export function Map() {
 
   const [hoveredCountry, setHoveredCountry] = useState('');
   const [tooltipPosition, setTooltipPosition] = useState({ x: 0, y: 0 });
+  const [countryInfo, setCountryInfo] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
 
+  const fetchCountryInfo = async (name) => {
+    try{
+      setLoading(True);
+      setError('');
+      setCountryInfo(null);
+
+      const response = await fetch(`http://localhost:4000/api/info/${encodeURIComponent(name)}`);
+      if (!response.ok) throw new Error('Failed to fetch country info');
+
+      const data = await response.json();
+      setCountryInfo(data);
+     } catch (err) {
+      setError('Could not load country info.');
+      } finally {
+        setLoading(false);
+    }
+    
+    }
+  }
 
   return (
     <main>
@@ -68,4 +90,3 @@ export function Map() {
       </ComposableMap>
     </main>
   );
-}
