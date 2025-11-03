@@ -88,5 +88,21 @@ export function Map() {
           }
         </Geographies>
       </ComposableMap>
+
+      <div style={{ marginTop: '1rem', padding: '1rem', border: '1px dashed #6e3972', borderRadius: '8px' }}>
+       {loading && <p>Loading info...</p>}
+        {error && <p style={{ color: 'red' }}>{error}</p>}
+        {countryInfo && (
+          <div>
+            <h3>{hoveredCountry}</h3>
+            <p><strong>Languages:</strong> {countryInfo.languages?.join(', ') || 'N/A'}</p>
+            <p><strong>Common Greetings:</strong> {countryInfo.greetings?.join(', ') || 'N/A'}</p>
+            <p><strong>Core Values:</strong> {countryInfo.values?.join(', ') || 'N/A'}</p>
+            <p><strong>Traditions:</strong> {countryInfo.traditions?.join(', ') || 'N/A'}</p>
+            <p><strong>Taboos:</strong> {countryInfo.taboos?.join(', ') || 'N/A'}</p>
+            <p><strong>Key Historical Facts:</strong> {countryInfo.history?.join(', ') || 'N/A'}</p>
+          </div>
+        )}
+      </div>
     </main>
   );
