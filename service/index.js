@@ -70,35 +70,71 @@ app.get('/api/scores', (req, res) => {
     res.json(scores.sort((a, b) => b.score - a.score));
 });
 
-app.get('/api/info/:name', async(req, res) => {
-    const {name} = req.params;
-    try {
-        const prompt = `
-        Give me a JSON object describing key cultural information about this country ${name}.
-      Include fields:
-      - languages: array of main languages
-      - greetings: array of common greetings
-      - values: array of core cultural values
-      - traditions: array of important traditions
-      - taboos: array of cultural taboos
-      - history: array of 2 key historical facts
-      Keep the answer concise, factual, and formatted as valid JSON.
-      `;
+app.get('/api/info/:name', async (req, res) => {
+  const { name } = req.params;
 
+  async function fetchCountryInfo(country) {
+    const prompt = `
+    Give me a JSON object describing *key cultural information* about the country "${country}".
+    Use this exact format (no nesting or extra keys):
+    {
+      "Official languages of the country": [...],
+      "most known greetings": [...],
+      "core cultural values": [...],
+      "traditions": [...],
+      "taboos": [...],
+      "key short history facts": [...]
+    }
+    Each field must have only 2 meaningful entries. Keep it short and factual.
+    `;
+
+    try {
       const completion = await openai.chat.completions.create({
         model: 'gpt-4o-mini',
-        messages: [{role: "user", content: prompt}],
-        response_format: {type: "json_object"}, 
-      })
+        messages: [{ role: 'user', content: prompt }],
+        response_format: { type: 'json_object' },
+      });
 
-      const data = JSON.parse(completion.choices[0].message.content);
-      res.json(data);
+      const result = JSON.parse(completion.choices[0].message.content);
+
+      const data = {
+        languages: result["Official languages of the country"] || [],
+        greetings: result["most known greetings"] || [],
+        values: result["core cultural values"] || [],
+        traditions: result["traditions"] || [],
+        taboos: result["taboos"] || [],
+        history: result["key short history facts"] || [],
+        };
+
+      return data;
+
+    } catch (err) {
+      console.error('OpenAI fetch failed:', err);
+      return null;
+    }
+  }
+
+  try {
+    let attempts = 0;
+    let data = null;
+
+    while (attempts < 3) {
+      data = await fetchCountryInfo(name);
+      if (data && Object.values(data).some(v => v && v.length > 0)) break;
+      attempts++;
+      console.log(`Retrying... (${attempts})`);
     }
 
-    catch (err) {
-        console.error(err);
-        res.status(500).json({ message: "Failed to fetch data from ChatGPT" });
+    if (!data) {
+      return res.status(500).json({ message: 'Could not fetch valid country info.' });
     }
+
+    res.json(data);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Failed to fetch data from ChatGPT' });
+  }
 });
+
 
 app.listen(port, () => console.log('Service running!'))
