@@ -13,18 +13,28 @@ export function Map() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
-  const fetchCountryInfo = async (name) => {
+  const fetchCountry = async (name) => {
     try{
       setLoading(true);
       setError('');
       setCountryInfo(null);
 
-      const response = await fetch(`/api/info/${encodeURIComponent(name)}`);
+      const response = await fetch(`/api/info/${name}`);
       if (!response.ok) throw new Error('Failed to fetch country info');
 
       const data = await response.json();
-      console.log(data);
-      setCountryInfo(data);
+
+      const normalizedData = {
+        languages: data.languages || data.cultural_info?.languages || data.cultural_information?.languages || [],
+        greetings: data.greetings || data.cultural_info?.greetings || data.cultural_information?.greetings || [],
+        values: data.values || data.cultural_info?.values || data.cultural_information?.values || [],
+        traditions: data.traditions || data.cultural_info?.traditions || data.cultural_information?.traditions || [],
+        taboos: data.taboos || data.cultural_info?.taboos || data.cultural_information?.taboos || [],
+        history: data.history || data.cultural_info?.history || data.cultural_information?.history || [],
+      };
+
+      console.log(normalizedData);
+      setCountryInfo(normalizedData);
      } catch (err) {
       setError('Could not load country info.');
       } finally {
@@ -35,7 +45,6 @@ export function Map() {
 
   return (
     <main>
-      <p>Hover over a country to see its name. Click functionality coming soon!</p>
 
       {hoveredCountry && (
         <div
@@ -78,7 +87,7 @@ export function Map() {
                 onClick={() => {
                   const countryName = geo.properties.name;
                   setSelectedCountry(countryName);
-                  fetchCountryInfo(countryName);
+                  fetchCountry(countryName);
                 }}
                 style={{
           
@@ -98,12 +107,13 @@ export function Map() {
         {countryInfo && (
           <div>
             <h3>{selectedCountry}</h3>
-            <p><strong>Languages:</strong> {countryInfo.cultural_info?.languages?.join(', ') || 'N/A'}</p>
-            <p><strong>Common Greetings:</strong> {countryInfo.cultural_info?.greetings?.join(', ') || 'N/A'}</p>
-            <p><strong>Core Values:</strong> {countryInfo.cultural_info?.values?.join(', ') || 'N/A'}</p>
-            <p><strong>Traditions:</strong> {countryInfo.cultural_info?.traditions?.join(', ') || 'N/A'}</p>
-            <p><strong>Taboos:</strong> {countryInfo.cultural_info?.taboos?.join(', ') || 'N/A'}</p>
-            <p><strong>Key Historical Facts:</strong> {countryInfo.cultural_info?.history?.join(', ') || 'N/A'}</p>
+            <p><strong>Languages:</strong> {countryInfo.languages?.join(', ') || 'N/A'}</p>
+            <p><strong>Common Greetings:</strong> {countryInfo.greetings?.join(', ') || 'N/A'}</p>
+            <p><strong>Core Values:</strong> {countryInfo.values?.join(', ') || 'N/A'}</p>
+            <p><strong>Traditions:</strong> {countryInfo.traditions?.join(', ') || 'N/A'}</p>
+            <p><strong>Taboos:</strong> {countryInfo.taboos?.join(', ') || 'N/A'}</p>
+            <p><strong>Key Historical Facts:</strong> {countryInfo.history?.join(', ') || 'N/A'}</p>
+
           </div>
         )}
       </div>

@@ -86,6 +86,7 @@ app.get('/api/info/:name', async (req, res) => {
       "key short history facts": [...]
     }
     Each field must have only 2 meaningful entries. Keep it short and factual.
+    Avoid saying "N/A" — if unsure, make your best factual guess.
     `;
 
     try {
@@ -104,7 +105,8 @@ app.get('/api/info/:name', async (req, res) => {
         traditions: result["traditions"] || [],
         taboos: result["taboos"] || [],
         history: result["key short history facts"] || [],
-        };
+      };
+
 
       return data;
 
@@ -112,7 +114,7 @@ app.get('/api/info/:name', async (req, res) => {
       console.error('OpenAI fetch failed:', err);
       return null;
     }
-  }
+  };
 
   try {
     let attempts = 0;
@@ -120,21 +122,35 @@ app.get('/api/info/:name', async (req, res) => {
 
     while (attempts < 3) {
       data = await fetchCountryInfo(name);
-      if (data && Object.values(data).some(v => v && v.length > 0)) break;
+      if (
+        data &&
+        Object.values(data).some(
+          (v) =>
+            v &&
+            v.length > 0 &&
+            !v.some((item) =>
+              typeof item === 'string' ? item.toUpperCase().includes('N/A') : false
+            )
+        )
+      ) {
+        break;
+      }
       attempts++;
-      console.log(`Retrying... (${attempts})`);
+      console.log(`Retrying OpenAI fetch... (Attempt ${attempts})`);
     }
 
     if (!data) {
-      return res.status(500).json({ message: 'Could not fetch valid country info.' });
+        return res.status(500).json({ message: 'Could not fetch valid country info.' });
     }
 
     res.json(data);
+
+    return res;
+
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: 'Failed to fetch data from ChatGPT' });
   }
 });
-
 
 app.listen(port, () => console.log('Service running!'))
