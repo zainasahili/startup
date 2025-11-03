@@ -25,15 +25,15 @@ export function Map() {
       const data = await response.json();
 
       const normalizedData = {
-        languages: data.languages || data.cultural_info?.languages || data.cultural_information?.languages || [],
-        greetings: data.greetings || data.cultural_info?.greetings || data.cultural_information?.greetings || [],
-        values: data.values || data.cultural_info?.values || data.cultural_information?.values || [],
-        traditions: data.traditions || data.cultural_info?.traditions || data.cultural_information?.traditions || [],
-        taboos: data.taboos || data.cultural_info?.taboos || data.cultural_information?.taboos || [],
-        history: data.history || data.cultural_info?.history || data.cultural_information?.history || [],
+        languages: data.languages || [],
+        greetings: data.greetings || [],
+        values: data.values || [],
+        traditions: data.traditions || [],
+        taboos: data.taboos  || [],
+        history: data.history || [],
       };
 
-      console.log(normalizedData);
+      console.log(data);
       setCountryInfo(normalizedData);
      } catch (err) {
       setError('Could not load country info.');
