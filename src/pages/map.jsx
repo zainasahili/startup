@@ -14,11 +14,11 @@ export function Map() {
 
   const fetchCountryInfo = async (name) => {
     try{
-      setLoading(True);
+      setLoading(true);
       setError('');
       setCountryInfo(null);
 
-      const response = await fetch(`http://localhost:4000/api/info/${encodeURIComponent(name)}`);
+      const response = await fetch(`/api/info/${encodeURIComponent(name)}`);
       if (!response.ok) throw new Error('Failed to fetch country info');
 
       const data = await response.json();
@@ -30,7 +30,6 @@ export function Map() {
     }
     
     }
-  }
 
   return (
     <main>
@@ -75,7 +74,8 @@ export function Map() {
                   setHoveredCountry('');
                 }}
                 onClick={() => {
-                  alert(`You clicked on ${geo.properties.name}. API link coming soon!`);
+                  const countryName = geo.properties.name;
+                  fetchCountryInfo(countryName);
                 }}
                 style={{
           
@@ -106,3 +106,4 @@ export function Map() {
       </div>
     </main>
   );
+}

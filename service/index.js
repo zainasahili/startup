@@ -76,13 +76,13 @@ app.get('/api/info/:name', async(req, res) => {
         const prompt = `
         Give me a JSON object describing key cultural information about this country ${name}.
       Include fields:
-      - Main languages
-      - common greetings
-      - core values
-      - important traditions
-      - cultural taboos
-      - 2 key historical facts
-      Keep the answer concise and accurate.
+      - languages: array of main languages
+      - greetings: array of common greetings
+      - values: array of core cultural values
+      - traditions: array of important traditions
+      - taboos: array of cultural taboos
+      - history: array of 2 key historical facts
+      Keep the answer concise, factual, and formatted as valid JSON.
       `;
 
       const completion = await openai.chat.completions.create({
