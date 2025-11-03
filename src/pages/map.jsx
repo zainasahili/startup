@@ -7,6 +7,7 @@ const geoUrl = "https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json";
 export function Map() {
 
   const [hoveredCountry, setHoveredCountry] = useState('');
+  const [selectedCountry, setSelectedCountry] = useState('');
   const [tooltipPosition, setTooltipPosition] = useState({ x: 0, y: 0 });
   const [countryInfo, setCountryInfo] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -22,6 +23,7 @@ export function Map() {
       if (!response.ok) throw new Error('Failed to fetch country info');
 
       const data = await response.json();
+      console.log(data);
       setCountryInfo(data);
      } catch (err) {
       setError('Could not load country info.');
@@ -75,6 +77,7 @@ export function Map() {
                 }}
                 onClick={() => {
                   const countryName = geo.properties.name;
+                  setSelectedCountry(countryName);
                   fetchCountryInfo(countryName);
                 }}
                 style={{
@@ -94,13 +97,13 @@ export function Map() {
         {error && <p style={{ color: 'red' }}>{error}</p>}
         {countryInfo && (
           <div>
-            <h3>{hoveredCountry}</h3>
-            <p><strong>Languages:</strong> {countryInfo.languages?.join(', ') || 'N/A'}</p>
-            <p><strong>Common Greetings:</strong> {countryInfo.greetings?.join(', ') || 'N/A'}</p>
-            <p><strong>Core Values:</strong> {countryInfo.values?.join(', ') || 'N/A'}</p>
-            <p><strong>Traditions:</strong> {countryInfo.traditions?.join(', ') || 'N/A'}</p>
-            <p><strong>Taboos:</strong> {countryInfo.taboos?.join(', ') || 'N/A'}</p>
-            <p><strong>Key Historical Facts:</strong> {countryInfo.history?.join(', ') || 'N/A'}</p>
+            <h3>{selectedCountry}</h3>
+            <p><strong>Languages:</strong> {countryInfo.cultural_info?.languages?.join(', ') || 'N/A'}</p>
+            <p><strong>Common Greetings:</strong> {countryInfo.cultural_info?.greetings?.join(', ') || 'N/A'}</p>
+            <p><strong>Core Values:</strong> {countryInfo.cultural_info?.values?.join(', ') || 'N/A'}</p>
+            <p><strong>Traditions:</strong> {countryInfo.cultural_info?.traditions?.join(', ') || 'N/A'}</p>
+            <p><strong>Taboos:</strong> {countryInfo.cultural_info?.taboos?.join(', ') || 'N/A'}</p>
+            <p><strong>Key Historical Facts:</strong> {countryInfo.cultural_info?.history?.join(', ') || 'N/A'}</p>
           </div>
         )}
       </div>
