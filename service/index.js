@@ -152,4 +152,39 @@ app.get('/api/info/:name', async (req, res) => {
   }
 });
 
+app.post('/api/quiz', async (req, res) => {
+  const topic = req.body.topic || "general knowledge";
+
+  try {
+    const response = await fetch("https://api.openai.com/v1/chat/completions", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${process.env.OPENAI_API_KEY}`,
+      },
+      body: JSON.stringify({
+        model: "gpt-4o-mini",
+        messages: [
+          {
+            role: "system",
+            content: "You are a quiz generator. Return a single multiple-choice question with 3 options and the correct answer."
+          },
+          {
+            role: "user",
+            content: `Generate one quiz question about ${topic}in the following categories (Official languages of the country, most known greetings,
+            core cultural values, traditions, taboos, key short history facts) in JSON format: {question, options: [a,b,c], correctAnswer}`
+          }
+        ],
+      }),
+    });
+
+    const data = await response.json();
+    const content = JSON.parse(data.choices[0].message.content);
+    res.json(content);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Failed to generate quiz" });
+  }
+});
+
 app.listen(port, () => console.log('Service running!'))
