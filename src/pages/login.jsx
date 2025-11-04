@@ -3,45 +3,79 @@ import React, { useState, useEffect } from 'react';
 export function Login() {
   const [loginMessage, setLoginMessage] = useState('');
   const [registerMessage, setRegisterMessage] = useState('');
+  const [username, setUsername] = useState('');
 
-  function handleLogin(event){
+  async function handleLogin(event){
     event.preventDefault();
     const username = event.target.username.value;
     const password = event.target.password.value;
 
-    const users = JSON.parse(localStorage.getItem('users')) || [];
-    const matchedUser = users.find(
-      (u) => u.username === username && u.password === password
-    );
+    try {
+      const res = await fetch('/api/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json'},
+        credentials: 'include',
+        body: JSON.stringify({username, password}),
+      });
 
-    if (matchedUser) {
-      localStorage.setItem('loggedInUser', matchedUser.username);
-      setLoginMessage(`Welcome back, ${matchedUser.username}!`);
-    } else {
-      setLoginMessage('Invalid username or password.');
+      const data = await res.json();
+
+      if (!res.ok) {
+        setLoginMessage(data.message || 'Login failed');
+        return;
+      }
+
+      setUsername(data.username);
+      setLoginMessage(`Welcome Back, ${data.username}!`);
+    } catch (err) {
+      console.error('Loging Error', err);
+      setLoginMessage('Error connecting to server');
     }
   }
 
-  function handleRegister(event){
+  async function handleRegister(event){
     event.preventDefault();
     const username = event.target.username.value;
     const password = event.target.password.value;
 
-    const users = JSON.parse(localStorage.getItem('users')) || [];
+    try {
+      const res = await fetch('/api/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json'},
+        credentials: 'include',
+        body: JSON.stringify({username, password}),
+      });
 
-    const existingUser = users.find((u) => u.username === username);
+      const data = await res.json();
 
-    if (existingUser) {
-      setRegisterMessage(`Username "${username}" already exists. Please choose another.`);
-      return;
+      if (!res.ok) {
+        setRegsiterMessage(data.message || 'Registeration failed');
+        return;
+      }
+
+      setRegisterMessage(`Account created for ${username}. You can now log in!`);
+
+    } catch (err) {
+      console.error('Registeration Error', err);
+      setLoginMessage('Error connecting to server');
     }
-
-    const newUser = { username, password };
-    users.push(newUser);
-    localStorage.setItem('users', JSON.stringify(users));
-
-    setRegisterMessage(`Account created for ${username}. You can now log in!`);
   }
+  async function handleLogout() {
+    try {
+      const res = await fetch('/api/logout', {
+        method: 'POST',
+        credentials: 'include',
+      });
+
+      const data = await res.json();
+      setUsername('');
+      setLoginMessage(data.message);
+    } catch (err) {
+      console.error('Logout error:', err);
+      setLoginMessage('Error logging out.');
+    }
+  }
+
   return (
     <main >
       <section>
