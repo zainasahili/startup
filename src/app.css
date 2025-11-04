@@ -15,7 +15,7 @@
 /* basic body setup*/
 .body {
     /* margin-left: 0.3rem; */
-    font-family: Copperplate, fantasy;
+    font-family: Georgia, serif;
     background: var(--p_b);
     color: var(--brand2);
     line-height: 1.5;

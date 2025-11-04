@@ -97,8 +97,6 @@ export function Login() {
             <form id="register-form" onSubmit={handleRegister}>   
                 <label htmlFor="r-username">Userame</label>
                 <input id="r-username" name="username" placeholder="Your username" required />
-                <label htmlFor="r-email">email</label>
-                <input id="r-email" name="email" placeholder="Your email" required />
                 <label htmlFor="r-password">Password</label>
                 <input id="r-password" name="password" type="password" placeholder="new password" required />
                 <button type="submit">Create account</button>
@@ -109,7 +107,7 @@ export function Login() {
       ): (
         <section>
           <h2>Welcome, {username}!</h2>
-          <button onClick={handleLogout}>Logout</button>
+          <button style={{width: "20%"}} onClick={handleLogout}>Logout</button>
           <p>{loginMessage}</p>
         </section>
       )}
