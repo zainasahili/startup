@@ -77,8 +77,10 @@ export function Login() {
   }
 
   return (
-    <main >
-      <section>
+    <main>
+      {!username? (
+        <>
+          <section>
             <h2>Login</h2>
             <form id="login-from" onSubmit={handleLogin}>   
                 <label htmlFor="l-user">Username</label>
@@ -103,6 +105,14 @@ export function Login() {
             </form>
             <p>{registerMessage}</p>
         </section>
+        </>
+      ): (
+        <section>
+          <h2>Welcome, {username}!</h2>
+          <button onClick={handleLogout}>Logout</button>
+          <p>{loginMessage}</p>
+        </section>
+      )}
     </main>
   );
 }
