@@ -44,7 +44,7 @@ export default function App() {
                 </li>
                 <li className="nav-item">
                 <NavLink to="quiz"  className={({ isActive }) => isActive ? 'active-link' : 'nav-link'}>
-                    Daily Quiz
+                    Quiz
                 </NavLink>
                 </li>
                 <li className="nav-item">

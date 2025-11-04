@@ -17,7 +17,7 @@ export function Home() {
     <section id="placeholders">
         <ul>
           <li><Link to="/map">Interactive Map</Link></li>
-          <li><Link to="/quiz">Daily Quiz</Link></li>
+          <li><Link to="/quiz">Quiz</Link></li>
           <li><Link to="/scoreboard">Scoreboard</Link></li>
           <li><Link to="/login">Login/Register</Link></li>
         </ul>

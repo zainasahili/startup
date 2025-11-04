@@ -1,37 +1,75 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 export function Quiz() {
-
+  const [question, setQuestion] = useState(null);
   const [selected, setSelected] = useState("");
   const [result, setResult] = useState('');
+  const [loading, setLoading] = useState(false);
 
-  const answer = 'b';
+  useEffect(() => {
+    generateQuiz();
+  }, []);
+
+  async function generateQuiz() {
+    setLoading(true);
+    setResult('');
+    setSelected('');
+
+    try {
+      const res = await fetch('/api/quiz', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+      });
+
+      const data = await res.json();
+      setQuestion(data);
+      console.log(data);
+    } catch (err) {
+      console.error('Error fetching quiz:', err);
+      setResult('Failed to load quiz. Please try again later.');
+    } finally {
+      setLoading(false);
+    }
+  }
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    if (selected === answer) {
+    if (!selected) return setResult('Please select an answer first!');
+    if (selected === question.correctAnswer) {
       setResult('Correct!');
-    } else if (selected) {
-      setResult('Try again! Hint: It is a gesture of respect.');
     } else {
-      setResult('Please select an answer first!');
+      setResult(`Try again!`);
     }
   };
 
   return (
     <main>
-       <p>The daily quiz will show here but for now it's a sample questions</p>
-        <form className = "quiz" onSubmit={handleSubmit}>
-            <fieldset>
-                <legend> Smaple question</legend>
-                <h3><strong>In Japan, which greeting is most common?</strong></h3>
-                <p><input type="radio" name="q1" value="a" onChange={() => setSelected('a')}/>{''} Handshake</p>
-                <p><input type="radio" name="q1" value="b" onChange={() => setSelected('b')}/>{''} Bow</p>
-                <p><input type="radio" name="q1" value="c" onChange={() => setSelected('c')}/>{''} High-five</p>
-                <button type="submit" className="quiz_submit">Submit</button>
-            </fieldset>
+      <h2>Daily Quiz</h2>
+
+      {loading && <p>Generating your quiz...</p>}
+
+      {!loading && question && (
+        <form className="quiz" onSubmit={handleSubmit}>
+          <fieldset>
+            <legend>Today's Question</legend>
+            <h3><strong>{question.question}</strong></h3>
+            {question.options.map((opt, index) => (
+              <p key={index}>
+                <input
+                  type="radio"
+                  name="quiz"
+                  value={opt}
+                  onChange={() => setSelected(opt)}
+                />{' '}
+                {opt}
+              </p>
+            ))}
+            <button type="submit" className="quiz_submit">Submit</button>
+          </fieldset>
         </form>
-        <section id="result" style={{ marginTop: '10px', fontWeight: 'bold' }}>{result}</section>
+      )}
+
+      <section id="result" style={{ marginTop: '10px', fontWeight: 'bold' }}>{result}</section>
     </main>
   );
 }

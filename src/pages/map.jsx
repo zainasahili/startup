@@ -33,7 +33,6 @@ export function Map() {
         history: data.history || [],
       };
 
-      console.log(data);
       setCountryInfo(normalizedData);
      } catch (err) {
       setError('Could not load country info.');

@@ -153,7 +153,6 @@ app.get('/api/info/:name', async (req, res) => {
 });
 
 app.post('/api/quiz', async (req, res) => {
-  const topic = req.body.topic || "general knowledge";
 
   try {
     const response = await fetch("https://api.openai.com/v1/chat/completions", {
@@ -171,7 +170,7 @@ app.post('/api/quiz', async (req, res) => {
           },
           {
             role: "user",
-            content: `Generate one quiz question about ${topic}in the following categories (Official languages of the country, most known greetings,
+            content: `Generate one quiz question about a random country from one of the following categories (Official languages of the country, most known greetings,
             core cultural values, traditions, taboos, key short history facts) in JSON format: {question, options: [a,b,c], correctAnswer}`
           }
         ],
