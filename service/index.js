@@ -152,38 +152,48 @@ app.get('/api/info/:name', async (req, res) => {
   }
 });
 
-app.post('/api/quiz', async (req, res) => {
 
+app.get('/api/quiz', async (req, res) => {
   try {
-    const response = await fetch("https://api.openai.com/v1/chat/completions", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${process.env.OPENAI_API_KEY}`,
-      },
-      body: JSON.stringify({
-        model: "gpt-4o-mini",
-        messages: [
+
+    const completion = await openai.chat.completions.create({
+      model: "gpt-4o-mini",
+      messages: [
           {
-            role: "system",
-            content: "You are a quiz generator. Return a single multiple-choice question with 3 options and the correct answer."
-          },
-          {
-            role: "user",
-            content: `Generate one quiz question about a random country from one of the following categories (Official languages of the country, most known greetings,
-            core cultural values, traditions, taboos, key short history facts) in JSON format: {question, options: [a,b,c], correctAnswer}`
+          role: "user",
+          content: `Generate a single multiple-choice question about one random country in the world.
+            Focus on: greetings, traditions, taboos, values, or languages.
+            Respond ONLY in JSON format:
+            {
+              "question": "...",
+              "options": ["A", "B", "C"],
+              "correctAnswer": "...",
+            }`
           }
         ],
-      }),
+      response_format: { type: 'json_object' },
     });
+    
+    let content;
 
-    const data = await response.json();
-    const content = JSON.parse(data.choices[0].message.content);
+    try {
+      content = JSON.parse(completion.choices[0].message.content);
+    } catch (err) {
+      console.error("Invalid JSON from OpenAI:", err);
+      content = {
+        question: "Failed to generate question",
+        options: [],
+        correctAnswer: ""
+      };
+    }
+
     res.json(content);
+
   } catch (err) {
-    console.error(err);
+    console.error("Quiz generation failed:", err);
     res.status(500).json({ error: "Failed to generate quiz" });
   }
 });
+
 
 app.listen(port, () => console.log('Service running!'))

@@ -11,19 +11,15 @@ export function Quiz() {
   }, []);
 
   async function generateQuiz() {
-    setLoading(true);
-    setResult('');
-    setSelected('');
-
     try {
-      const res = await fetch('/api/quiz', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-      });
+      setLoading(true);
+      setResult('');
+      setSelected('');
+      const res = await fetch('/api/quiz');
 
       const data = await res.json();
       setQuestion(data);
-      console.log(data);
+    
     } catch (err) {
       console.error('Error fetching quiz:', err);
       setResult('Failed to load quiz. Please try again later.');
@@ -46,8 +42,7 @@ export function Quiz() {
     <main>
       <h2>Daily Quiz</h2>
 
-      {loading && <p>Generating your quiz...</p>}
-
+      {loading}
       {!loading && question && (
         <form className="quiz" onSubmit={handleSubmit}>
           <fieldset>
