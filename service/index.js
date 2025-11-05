@@ -161,8 +161,8 @@ app.get('/api/quiz', async (req, res) => {
       messages: [
           {
           role: "user",
-          content: `Generate a single multiple-choice question about one random country in the world.
-            Focus on: greetings, traditions, taboos, values, or languages.
+          content: `Generate a single multiple-choice question about any country in the world. Choose the country randomly.
+            Choose randomly from one of the following topics : traditions, taboos, values, greetings, or languages.
             Respond ONLY in JSON format:
             {
               "question": "...",
