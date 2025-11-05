@@ -62,3 +62,13 @@ Placeholders added for:
 - Added an interactive map using react-simple-maps with hover and click events for user feedback.
 - Built a scoreboard component that updates dynamically and sorts player scores.
 - Designed a mock quiz section with question placeholders and simple scoring logic.
+
+
+## Service
+
+- learned how to connect a React frontend with an Express backend using API routes to fetch and display dynamic data.
+- implemented user registration and login functionality using localStorage, understanding how data persistence and user sessions work.
+- learned how to use OpenAI to generate quiz questions dynamically based on country topics.
+- gained experience managing app states like loading, error, and success using React hooks (`useState`, `useEffect`).
+
+
