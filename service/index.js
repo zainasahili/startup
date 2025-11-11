@@ -64,10 +64,17 @@ app.post('/api/login', async(req, res) => {
   }
 });
 
-app.post('/api/logout', (req, res) => {
+app.post('/api/logout', async (req, res) => {
     const {sessionId} = req.cookies;
-    delete sessions[sessionId];
-    res.clearCookie('sessionId');
+    try{
+      await db.collection('sessions').deleteOne({sessionId});
+      res.clearCookie('sessionId');
+      res.json({ message: 'Logged out successfully' });
+    } catch (err){
+      console.error('Logout error:', err);
+      res.status(500).json({ message: 'Internal server error' });
+  }
+   
 })
 
 app.get('/api/profile', (req, res) => {
