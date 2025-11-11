@@ -77,13 +77,19 @@ app.post('/api/logout', async (req, res) => {
    
 })
 
-app.get('/api/profile', (req, res) => {
+app.get('/api/profile', async (req, res) => {
     const {sessionId} = req.cookies;
-    const username = sessions[sessionId];
-    if (!username){
+    try{
+      const session = await db.collection('sessions').findOne({sessionId});
+      const username = session?.username;
+      if (!username){
         return res.status(401).json({message: 'Unauthorized'})
-    }
-    res.json({username, message: `Welcome Back ${username}!`});
+      }
+      res.json({username, message: `Welcome Back ${username}!`});
+    } catch (err) {
+    console.error('Profile error:', err);
+    res.status(500).json({ message: 'Internal server error' });
+  }
 })
 
 app.get('/api/scores', (req, res) => {
