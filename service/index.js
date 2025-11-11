@@ -38,7 +38,7 @@ app.post('/api/register', async(req, res) => {
       return res.status(400).json({ message: 'Username already exists' });
     }
     const hashed = await bcrypt.hash(password, 10);
-    await db.collection('users').insertOne({ username, password: hashed });
+    await db.collection('users').insertOne({ username, password: hashed, score: 0 });
     res.status(201).json({ message: 'Registered successfully' });
   } catch (err){
     console.error('Registeration error: ', err);
