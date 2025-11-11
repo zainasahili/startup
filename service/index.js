@@ -19,22 +19,36 @@ app.use(cors())
 app.use(express.json())
 app.use(cookieParser())
 
-const users = {}
-const sessions = {}
+let db;
+
+connectToDatabase()
+  .then(() => {
+    app.listen(port, () => console.log('Service running and connected to DB!'));
+  })
+  .catch((err) => {
+    console.error('Failed to connect to MongoDB:', err);
+  });
 
 
 app.post('/api/register', async(req, res) => {
-  const existing = await db.collection("users").findOne({username});
-  if (existing) {
-    return res.status(400).json({ message: 'Username already exists' });
+  try{
+    const existing = await db.collection("users").findOne({username});
+    if (existing) {
+      return res.status(400).json({ message: 'Username already exists' });
+    }
+    const hashed = await bcrypt.hash(password, 10);
+    await db.collection('users').insertOne({ username, password: hashed });
+    res.status(201).json({ message: 'Registered successfully' });
+  } catch (err){
+    console.error('Registeration error: ', err);
+    res.status(500).json({ message: 'Internal server error' });
   }
-  const hashed = await bcrypt.hash(password, 10);
-  await db.collection('users').insertOne({ username, password: hashed });
-  res.status(201).json({ message: 'Registered successfully' });
 
 });
 
 app.post('/api/login', async(req, res) => {
+    const existing = await db.collection("users").findOne({username});
+    if (e)
     const {username, password} = req.body;
     const user = users[username]
     if (!user || !(await bcrypt.compare(password, user.password))) {
@@ -190,12 +204,3 @@ app.get('/api/quiz', async (req, res) => {
     res.status(500).json({ error: "Failed to generate quiz" });
   }
 });
-
-
-connectToDatabase()
-  .then(() => {
-    app.listen(port, () => console.log('Service running and connected to DB!'));
-  })
-  .catch((err) => {
-    console.error('Failed to connect to MongoDB:', err);
-  });
