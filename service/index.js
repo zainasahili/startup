@@ -31,6 +31,7 @@ connectToDatabase()
 
 
 app.post('/api/register', async(req, res) => {
+  const {username, password} = req.body;
   try{
     const existing = await db.collection("users").findOne({username});
     if (existing) {
@@ -47,17 +48,20 @@ app.post('/api/register', async(req, res) => {
 });
 
 app.post('/api/login', async(req, res) => {
-    const existing = await db.collection("users").findOne({username});
-    if (e)
-    const {username, password} = req.body;
-    const user = users[username]
-    if (!user || !(await bcrypt.compare(password, user.password))) {
-        return res.status(401).json({ message: 'Invalid credentials' });
+  const {username, password} = req.body;
+  try {
+    const user = await db.collection("users").findOne({username})
+    if (!user || (await bcrypt.compare(password, user.password))){
+      return res.status(401).json({ message: 'Invalid credentials' });
     }
-    const sessionId = uuidv4();
-    sessions[sessionId] = username;
-    res.cookie('sessionId', sessionId, {httpOnly: true});
+    const sessionId = uuidv4(); 
+    await db.collection('sessions').insertOne({sessionId, username})
+    res.cookie('sessionId', sessionId, {httpOnly: true}); 
     res.json({message: 'Login Successful', username});
+  } catch (err){
+    console.error('Login error:', err);
+    res.status(500).json({ message: 'Internal server error' });
+  }
 });
 
 app.post('/api/logout', (req, res) => {
