@@ -4,7 +4,8 @@ import bcrypt from 'bcryptjs';
 import { v4 as uuidv4 } from 'uuid';
 import cors from 'cors';
 import dotenv from 'dotenv';
-import OpenAI from "openai"
+import OpenAI from "openai";
+import { connectToDatabase, getDb } from './database.js';
 
 dotenv.config();
 const port = process.argv.length > 2 ? process.argv[2] : 4000;
@@ -196,4 +197,10 @@ app.get('/api/quiz', async (req, res) => {
 });
 
 
-app.listen(port, () => console.log('Service running!'))
+connectToDatabase()
+  .then(() => {
+    app.listen(port, () => console.log('Service running and connected to DB!'));
+  })
+  .catch((err) => {
+    console.error('Failed to connect to MongoDB:', err);
+  });
