@@ -19,23 +19,18 @@ app.use(cors())
 app.use(express.json())
 app.use(cookieParser())
 
-// Mock Database
 const users = {}
 const sessions = {}
-const scores = [
-  { name: 'Alice', score: 85 },
-  { name: 'Bob', score: 72 },
-  { name: 'Carla', score: 90 },
-];
+
 
 app.post('/api/register', async(req, res) => {
-    const {username, password} = req.body;
-    if (users[username]) {
+  const existing = await db.collection("users").findOne({username});
+  if (existing) {
     return res.status(400).json({ message: 'Username already exists' });
-    }
-    const hashed = await bcrypt.hash(password, 10);
-    users[username] = { username, password: hashed };
-    res.status(201).json({ message: 'Registered successfully' });
+  }
+  const hashed = await bcrypt.hash(password, 10);
+  await db.collection('users').insertOne({ username, password: hashed });
+  res.status(201).json({ message: 'Registered successfully' });
 
 });
 
