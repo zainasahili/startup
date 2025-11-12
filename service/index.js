@@ -8,7 +8,7 @@ import OpenAI from "openai";
 import { connectToDatabase, getDb } from './database.js';
 
 dotenv.config();
-const port = process.argv.length > 2 ? process.argv[2] : 4000;
+const port = process.env.PORT || 4000;
 const app = express();
 const openai = new OpenAI({
     apiKey: process.env.OPENAI_API_KEY, 

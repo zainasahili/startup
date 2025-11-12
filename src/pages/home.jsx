@@ -3,10 +3,6 @@ import { Link } from 'react-router-dom';
 
 export function Home() {
 
-    const [scores] = useState([
-        { user: 'Zach', score: 85, date: '2025-08-20' },
-        { user: 'Rachel',score: 72, date: '2025-09-18' },
-    ]);
 
   return (
     <main>
@@ -28,21 +24,6 @@ export function Home() {
             <li>Auth service — handle register/login securely</li>
             <li>Realtime WebSocket endpoint for scoreboard updates</li>
         </ul>
-    </section>
-    <section id="DataBase placeholder">
-        <h1>DataBase placeholder</h1>
-        <table border="1" id="db-table">
-            <thead><tr><th>User</th><th>Score</th><th>Date</th></tr></thead>
-            <tbody>
-                {scores.map((entry, index) => (
-                    <tr key={index}>
-                        <td>{entry.user}</td>
-                        <td>{entry.score}</td>
-                        <td>{entry.date}</td>
-                    </tr>     
-            ))}
-            </tbody>
-        </table>
     </section>
     </main>
   );

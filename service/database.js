@@ -1,20 +1,21 @@
 import { MongoClient } from 'mongodb';
-import fs from 'fs';
-
-const configPath = new URL('./dbConfig.json', import.meta.url);
-const config = JSON.parse(fs.readFileSync(configPath, 'utf-8'));
 
 let db;
 
 export async function connectToDatabase() {
-  const client = new MongoClient(config.url);
+  const uri = process.env.MONGODB_URI;
+  const dbName = process.env.DB_NAME || 'startup';
+
+  if (!uri) {
+    throw new Error('Missing MONGODB_URI environment variable');
+  }
+
+  const client = new MongoClient(uri);
   await client.connect();
-  db = client.db(config.dbName);
+  db = client.db(dbName);
 }
 
 export function getDb() {
-  if (!db) {
-    throw new Error("Database not initialized. Call connectToDatabase() first.");
-  }
+  if (!db) throw new Error("Database not initialized. Call connectToDatabase() first.");
   return db;
 }
