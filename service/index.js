@@ -236,40 +236,55 @@ app.get('/api/quiz', async (req, res) => {
 });
 
 app.post('/api/quiz/submit', async (req, res) => {
-  const {sessionId} = req.cookies;
-  const {answer, correctAnswer} = req.body;
+  const { sessionId } = req.cookies;
+  const { answer, correctAnswer } = req.body;
 
-  try{
-    const session = await db.collection('sessions').findOne({sessionId});
-    if (!session){
-      return res.status(401).json({message: "Unauthorized"});
-    }
-    
-    const username = session.username;
-    const user = await db.collection('users').findOne({username});
-    if (!user) {
-      return res.status(404).json({ message: 'User not found' });
+  try {
+    const isCorrect =
+      answer === correctAnswer;
+
+    let response = {
+      correct: isCorrect,
+      pointsEarned: 0,
+      totalScore: null,
+      message: isCorrect
+        ? 'Correct! Login to earn points'
+        : 'Incorrect answer'
+    };
+
+    if (sessionId) {
+      const session = await db.collection('sessions').findOne({ sessionId });
+
+      if (session) {
+        const username = session.username;
+        const user = await db.collection('users').findOne({ username });
+
+        if (user && isCorrect) {
+          await db.collection('users').updateOne(
+            { username },
+            { $inc: { score: 5 } }
+          );
+          const updatedUser = await db.collection('users').findOne({ username });
+
+          response = {
+            correct: true,
+            pointsEarned: 5,
+            totalScore: updatedUser.score,
+            message: `Correct! +5 points earned, Your score is ${updatedUser.score}`
+          };
+        } else if (user && !isCorrect) {
+          response.message = 'Try Again!';
+          response.totalScore = user.score;
+        }
+      }
     }
 
-    let earned = 0;
-    if (answer === correctAnswer) {
-      earned = 5;
-      await db.collection('users').updateOne(
-        { username },
-        { $inc: { score: 5 } }
-      );
-    }
-    const updatedUser = await db.collection('users').findOne({ username });
-    res.json({
-      correct: earned > 0,
-      pointsEarned: earned,
-      totalScore: updatedUser.score,
-    });
-
+    res.json(response);
   } catch (err) {
     console.error('Quiz submit error:', err);
     res.status(500).json({ message: 'Failed to submit quiz' });
   }
 });
+
 
 

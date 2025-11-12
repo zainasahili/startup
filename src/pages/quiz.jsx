@@ -45,7 +45,7 @@ export function Quiz() {
     const data = await res.json();
     if (res.ok){
       if (data.correct){
-        setResult(`Correct! +${data.pointsEarned} points, (Total: ${data.totalScore})`);
+        setResult(data.message);
         setTimeout(() => generateQuiz(), 2000);
       } else {
         setResult('Try Again!');
