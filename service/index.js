@@ -22,8 +22,9 @@ app.use(cookieParser())
 let db;
 
 connectToDatabase()
-  .then(() => {
+  .then(async () => {
     db = getDb();
+    await db.collection('sessions').deleteMany({});
     app.listen(port, () => console.log('Service running and connected to DB!'));
   })
   .catch((err) => {
@@ -196,10 +197,11 @@ app.get('/api/quiz', async (req, res) => {
 
     const completion = await openai.chat.completions.create({
       model: "gpt-4o-mini",
+      temperature: 1.1,
       messages: [
           {
           role: "user",
-          content: `Generate a single multiple-choice question about any country in the world. Choose the country randomly.
+          content: `Generate a single multiple-choice question about any country in the world. Choose a random different country each time.
             Choose randomly from one of the following topics : traditions, taboos, values, greetings, or languages.
             Respond ONLY in JSON format:
             {
