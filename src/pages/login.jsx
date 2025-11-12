@@ -49,7 +49,7 @@ export function Login() {
       const data = await res.json();
 
       if (!res.ok) {
-        setRegsiterMessage(data.message || 'Registeration failed');
+        setRegisterMessage(data.message || 'Registeration failed');
         return;
       }
 
@@ -57,7 +57,7 @@ export function Login() {
 
     } catch (err) {
       console.error('Registeration Error', err);
-      setLoginMessage('Error connecting to server');
+      setRegisterMessage('Error connecting to server');
     }
   }
   async function handleLogout() {

@@ -35,10 +35,10 @@ export function Quiz() {
       const res = await fetch('/api/quiz/submit', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      credentials: 'include', // important! sends the session cookie
+      credentials: 'include',
       body: JSON.stringify({
-        userAnswer: selected,
-        correctAnswer: question.correctAnswer
+        answer: selected,
+        correctAnswer: question.correctAnswer[0]
       }),
     })
 
@@ -63,7 +63,7 @@ export function Quiz() {
     <main>
       <h2>Daily Quiz</h2>
 
-      {loading}
+      {loading && <p>Loading Quiz...</p>}
       {!loading && question && (
         <form className="quiz" onSubmit={handleSubmit}>
           <fieldset>
@@ -75,7 +75,7 @@ export function Quiz() {
                   type="radio"
                   name="quiz"
                   value={opt}
-                  onChange={() => setSelected(opt)}
+                  onChange={() => setSelected(opt[0])}
                 />{' '}
                 {opt}
               </p>

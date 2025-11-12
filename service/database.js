@@ -10,7 +10,6 @@ export async function connectToDatabase() {
   const client = new MongoClient(config.url);
   await client.connect();
   db = client.db(config.dbName);
-  console.log("Connected to MongoDB");
 }
 
 export function getDb() {

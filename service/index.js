@@ -23,6 +23,7 @@ let db;
 
 connectToDatabase()
   .then(() => {
+    db = getDb();
     app.listen(port, () => console.log('Service running and connected to DB!'));
   })
   .catch((err) => {
@@ -33,7 +34,7 @@ connectToDatabase()
 app.post('/api/register', async(req, res) => {
   const {username, password} = req.body;
   try{
-    const existing = await db.collection("users").findOne({username});
+    const existing = await db.collection('users').findOne({username});
     if (existing) {
       return res.status(400).json({ message: 'Username already exists' });
     }
@@ -50,8 +51,8 @@ app.post('/api/register', async(req, res) => {
 app.post('/api/login', async(req, res) => {
   const {username, password} = req.body;
   try {
-    const user = await db.collection("users").findOne({username})
-    if (!user || (await bcrypt.compare(password, user.password))){
+    const user = await db.collection('users').findOne({username})
+    if (!user || !(await bcrypt.compare(password, user.password))){
       return res.status(401).json({ message: 'Invalid credentials' });
     }
     const sessionId = uuidv4(); 
@@ -237,7 +238,7 @@ app.post('/api/quiz/submit', async (req, res) => {
   const {answer, correctAnswer} = req.body;
 
   try{
-    const session = await db.collection.findOne({sessionId});
+    const session = await db.collection('sessions').findOne({sessionId});
     if (!session){
       return res.status(401).json({message: "Unauthorized"});
     }
@@ -249,7 +250,7 @@ app.post('/api/quiz/submit', async (req, res) => {
     }
 
     let earned = 0;
-    if (userAnswer.trim().toLowerCase() === correctAnswer.trim().toLowerCase()) {
+    if (answer === correctAnswer) {
       earned = 5;
       await db.collection('users').updateOne(
         { username },
@@ -260,7 +261,7 @@ app.post('/api/quiz/submit', async (req, res) => {
     res.json({
       correct: earned > 0,
       pointsEarned: earned,
-      totalScore: updatedUser.score
+      totalScore: updatedUser.score,
     });
 
   } catch (err) {
