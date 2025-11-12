@@ -28,13 +28,34 @@ export function Quiz() {
     }
   }
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     if (!selected) return setResult('Please select an answer first!');
-    if (selected === question.correctAnswer) {
-      setResult('Correct!');
+    try{
+      const res = await fetch('/api/quiz/submit', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'include', // important! sends the session cookie
+      body: JSON.stringify({
+        userAnswer: selected,
+        correctAnswer: question.correctAnswer
+      }),
+    })
+
+    const data = await res.json();
+    if (res.ok){
+      if (data.correct){
+        setResult(`Correct! +${data.pointsEarned} points, (Total: ${data.totalScore})`);
+        setTimeout(() => generateQuiz(), 2000);
+      } else {
+        setResult('Try Again!');
+      }
     } else {
-      setResult(`Try again!`);
+      setResult(data.message || 'Something went wrong!');
+    }
+  } catch (err){
+    console.error('Error submitting quiz:', err);
+    setResult('Error submitting answer');
     }
   };
 
