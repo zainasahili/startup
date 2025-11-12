@@ -71,4 +71,13 @@ Placeholders added for:
 - learned how to use OpenAI to generate quiz questions dynamically based on country topics.
 - gained experience managing app states like loading, error, and success using React hooks (`useState`, `useEffect`).
 
+## DB
+- Added MongoDB database integration for user registration, login, and score tracking.
+- Created database.js and dbConfig.json files to manage and securely connect to the MongoDB.
+- Updated server (index.js) to initialize the database connection on startup and handle user authentication routes.
+- Implemented quiz scoring logic. Users now earn points for each correct quiz answer, which are saved in the database.
+- Configured environment variables for database connection and API keys to ensure secure deployment.
+- Improved frontend quiz handling to check if a user is logged in before updating their score.
+
+
 

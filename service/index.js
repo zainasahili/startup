@@ -3,11 +3,11 @@ import cookieParser from 'cookie-parser';
 import bcrypt from 'bcryptjs';
 import { v4 as uuidv4 } from 'uuid';
 import cors from 'cors';
-import dotenv from 'dotenv';
 import OpenAI from "openai";
 import { connectToDatabase, getDb } from './database.js';
+import dotenv from 'dotenv';
 
-dotenv.config();
+
 const port = process.env.PORT || 4000;
 const app = express();
 const openai = new OpenAI({
@@ -26,6 +26,7 @@ connectToDatabase()
     db = getDb();
     await db.collection('sessions').deleteMany({});
     app.listen(port, () => console.log('Service running and connected to DB!'));
+
   })
   .catch((err) => {
     console.error('Failed to connect to MongoDB:', err);

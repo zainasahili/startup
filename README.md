@@ -123,8 +123,15 @@ For this deliverable I did the following. I checked the box `[x]` and added a de
 
 For this deliverable I did the following. I checked the box `[x]` and added a description for things I completed.
 
-- [ ] **Stores data in MongoDB** - I did not complete this part of the deliverable.
-- [ ] **Stores credentials in MongoDB** - I did not complete this part of the deliverable.
+- [x] **Stores data in MongoDB** - I did not complete this part of the deliverable.
+- [x] **Stores credentials in MongoDB** - I did not complete this part of the deliverable.
+
+- Added MongoDB database integration for user registration, login, and score tracking.
+- Created database.js and dbConfig.json files to manage and securely connect to the MongoDB.
+- Updated server (index.js) to initialize the database connection on startup and handle user authentication routes.
+- Implemented quiz scoring logic. Users now earn points for each correct quiz answer, which are saved in the database.
+- Configured environment variables for database connection and API keys to ensure secure deployment.
+- Improved frontend quiz handling to check if a user is logged in before updating their score.
 
 ## 🚀 WebSocket deliverable
 
