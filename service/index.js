@@ -92,8 +92,18 @@ app.get('/api/profile', async (req, res) => {
   }
 })
 
-app.get('/api/scores', (req, res) => {
-    res.json(scores.sort((a, b) => b.score - a.score));
+app.get('/api/scores', async (req, res) => {
+    try{
+      const users = await db
+        .collection('users')
+        .find(({}, {projection: {username: 1, score: 1, _id:0}}))
+        .sort({ score: -1 })
+        .toArray();
+      res.join(users);
+    } catch (err){
+      console.error('Failed to fetch scores:', err);
+      res.status(500).json({ message: 'Failed to fetch scores' });
+    }
 });
 
 app.get('/api/info/:name', async (req, res) => {
