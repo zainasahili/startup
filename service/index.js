@@ -221,3 +221,42 @@ app.get('/api/quiz', async (req, res) => {
     res.status(500).json({ error: "Failed to generate quiz" });
   }
 });
+
+app.post('/api/quiz/submit', async (req, res) => {
+  const {sessionId} = req.cookies;
+  const {answer, correctAnswer} = req.body;
+
+  try{
+    const session = await db.collection.findOne({sessionId});
+    if (!session){
+      return res.status(401).json({message: "Unauthorized"});
+    }
+    
+    const username = session.username;
+    const user = await db.collection('users').findOne({username});
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    let earned = 0;
+    if (userAnswer.trim().toLowerCase() === correctAnswer.trim().toLowerCase()) {
+      earned = 5;
+      await db.collection('users').updateOne(
+        { username },
+        { $inc: { score: 5 } }
+      );
+    }
+    const updatedUser = await db.collection('users').findOne({ username });
+    res.json({
+      correct: earned > 0,
+      pointsEarned: earned,
+      totalScore: updatedUser.score
+    });
+
+  } catch (err) {
+    console.error('Quiz submit error:', err);
+    res.status(500).json({ message: 'Failed to submit quiz' });
+  }
+});
+
+
