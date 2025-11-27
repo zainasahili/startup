@@ -5,7 +5,9 @@ import { v4 as uuidv4 } from 'uuid';
 import cors from 'cors';
 import OpenAI from "openai";
 import { connectToDatabase, getDb } from './database.js';
-import dotenv from 'dotenv';
+import http from 'http';
+import { WebSocketServer } from 'ws';
+
 
 
 const port = process.env.PORT || 4000;
