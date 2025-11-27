@@ -23,16 +23,44 @@ app.use(cookieParser())
 
 let db;
 
+const server = http.createServer(app);
+const wss = new WebSocketServer({server});
+
+function broadcast(data){
+  const message = JSON.stringify(data);
+  wss.clients.forEach(client => {
+    if (client.readyState === 1){
+      client.send(message);
+    }
+  });
+}
+
+
 connectToDatabase()
   .then(async () => {
     db = getDb();
     await db.collection('sessions').deleteMany({});
-    app.listen(port, () => console.log('Service running and connected to DB!'));
+    
+    server.listen(port, () => console.log(`Service running with WebSocket on port ${port}`));
 
   })
   .catch((err) => {
     console.error('Failed to connect to MongoDB:', err);
   });
+
+  wss.on('connection', (ws) => {
+    console.log("Client connected via Websocket");
+
+    ws.send(JSON.stringify({type: 'welcome', message: 'Websocket Connected!'}));
+    ws.on('message', (data) => {
+    console.log('Received from frontend:', data.toString());
+
+    broadcast({ type: 'broadcast', message: data.toString() });
+    });
+    ws.on('close', () => {
+    console.log('WebSocket client disconnected');
+  });
+});
 
 
 app.post('/api/register', async(req, res) => {
