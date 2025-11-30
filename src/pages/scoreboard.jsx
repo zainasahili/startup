@@ -4,7 +4,12 @@ export function Scoreboard() {
   const [scores, setScores] = useState([]);
 
   useEffect(() => {
-    const ws = new WebSocket("ws://localhost:4000/ws/scoreboard");
+    const ws = new WebSocket(
+      (window.location.protocol === "https:" ? "wss://" : "ws://") +
+      window.location.host +
+      "/ws/scoreboard"
+    );
+
 
 
     ws.onopen = () => {

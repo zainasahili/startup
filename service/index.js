@@ -105,21 +105,7 @@ wss.on('connection', async (ws, req) => {
   }
 });
 
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'index.html'));
-});
 
-
-connectToDatabase()
-  .then(async () => {
-    db = getDb();
-    await db.collection('sessions').deleteMany({});
-
-    server.listen(port, () => console.log(`Service running with WebSocket on port ${port}`));
-  })
-  .catch((err) => {
-    console.error('Failed to connect to MongoDB:', err);
-  });
 
 
 app.post('/api/register', async(req, res) => {
@@ -410,6 +396,23 @@ app.post('/api/quiz/submit', async (req, res) => {
     res.status(500).json({ message: 'Failed to submit quiz' });
   }
 });
+
+app.get(/.*/, (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
+
+
+
+connectToDatabase()
+  .then(async () => {
+    db = getDb();
+    await db.collection('sessions').deleteMany({});
+
+    server.listen(port, () => console.log(`Service running with WebSocket on port ${port}`));
+  })
+  .catch((err) => {
+    console.error('Failed to connect to MongoDB:', err);
+  });
 
 
 
