@@ -35,23 +35,22 @@ export function Scoreboard() {
 
   return (
     <main>
-      <h2>Top Scores</h2>
-      <div
+      <h2 style={{textAlign: "center"}}>Top Scores</h2>
+      {/* <div
   id="live-chart"
   style={{
     border: "1px dashed rgb(135, 83, 148)",
     padding: "1rem",
     marginTop: "1rem",
-    marginLeft: "15rem",
-    marginRight: "7rem",
-    width: "50%",
-    alignContent: "center"
+    display: "flex",
+    justifyContent: "center",
+    width: "50%"
   }}
->
+> */}
   {scores.length === 0 ? (
     <p>No scores yet</p>
   ) : (
-    <table style={{ width: "100%", borderCollapse: "collapse" }}>
+    <table style={{ width: "100%", borderCollapse: "collapse", margin: "0 auto", width: "50%" }}>
       <thead>
         <tr>
           <th style={{ textAlign: "center", padding: "6px" }}>User</th>
@@ -73,7 +72,7 @@ export function Scoreboard() {
       </tbody>
     </table>
   )}
-</div>
+{/* </div> */}
 
     </main>
   );

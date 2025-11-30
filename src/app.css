@@ -13,13 +13,26 @@
 }
 
 /* basic body setup*/
-.body {
-    /* margin-left: 0.3rem; */
-    font-family: Georgia, serif;
-    background: var(--p_b);
-    color: var(--brand2);
-    line-height: 1.5;
+
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
 }
+
+body {
+  font-family: Georgia, serif;
+  background: var(--p_b);
+  color: var(--brand2);
+  line-height: 1.5;
+}
+
+.body {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
 
 menu {
   flex: 1;
@@ -177,11 +190,17 @@ footer{
     font-size: 1rem;
     color: var(--brand2);
     border-radius: var(--radius);
+    margin-top: auto;
+}
+
+.footer-table {
+    margin-top: auto;
 }
 
 footer table{
     width: 100%;
     color: var(--brand);
+    margin-top: auto;
 }
 
 .footer-table th,
