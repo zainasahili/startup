@@ -8,6 +8,8 @@ import { connectToDatabase, getDb } from './database.js';
 import http from 'http';
 import { WebSocketServer } from 'ws';
 import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
 
 
 
@@ -31,7 +33,7 @@ async function getTopScores(limit = 10) {
   try {
     const rows = await db
       .collection('users')
-      .find({}, { projection: { username: 1, score: 1 } })
+      .find({}, { projection: { username: 1, score: 1, _id: 0 } })
       .sort({ score: -1 })
       .limit(limit)
       .toArray();
@@ -43,6 +45,14 @@ async function getTopScores(limit = 10) {
   }
 }
 
+function broadcast(data){ 
+  const message = JSON.stringify(data);
+   wss.clients.forEach(client => { 
+    if (client.readyState === 1){ 
+      client.send(message); } 
+    });
+  }
+
 async function broadcastScoreboardUpdate() {
   try {
     const scores = await getTopScores();
@@ -52,10 +62,15 @@ async function broadcastScoreboardUpdate() {
   }
 }
 
-const countries = fs.readFileSync('../countries.txt', 'utf-8')
-                   .split('\n')
-                   .map(c => c.trim())
-                   .filter(Boolean);
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+const countriesFilePath = path.join(__dirname, 'countries.txt');
+
+const countries = fs.readFileSync(countriesFilePath, 'utf-8')
+                    .split('\n')
+                    .map(c => c.trim())
+                    .filter(Boolean);
 
 
 function getRandomCountry() {
@@ -89,6 +104,11 @@ wss.on('connection', async (ws, req) => {
     console.error('WS connection handler error', err);
   }
 });
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
+
 
 connectToDatabase()
   .then(async () => {
@@ -171,7 +191,7 @@ app.get('/api/scores', async (req, res) => {
         .find(({}, {projection: {username: 1, score: 1, _id:0}}))
         .sort({ score: -1 })
         .toArray();
-      res.join(users);
+      res.json(users);
     } catch (err){
       console.error('Failed to fetch scores:', err);
       res.status(500).json({ message: 'Failed to fetch scores' });
