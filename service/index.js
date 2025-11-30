@@ -35,32 +35,68 @@ function broadcast(data){
   });
 }
 
+async function getTopScores(limit = 10) {
+  try {
+    const rows = await db
+      .collection('users')
+      .find({}, { projection: { username: 1, score: 1 } })
+      .sort({ score: -1 })
+      .limit(limit)
+      .toArray();
+
+    return rows.map(r => ({ username: r.username, score: r.score }));
+  } catch (err) {
+    console.error('getTopScores error', err);
+    return [];
+  }
+}
+
+async function broadcastScoreboardUpdate() {
+  try {
+    const scores = await getTopScores();
+    broadcast({ type: 'scoreboard_update', scores });
+  } catch (err) {
+    console.error('broadcastScoreboardUpdate error', err);
+  }
+}
+
+
+wss.on('connection', async (ws, req) => {
+  try {
+    const url = req.url || '/';
+    console.log('WS connection, path:', url);
+
+    if (url.startsWith('/ws/scoreboard')) {
+      const scores = await getTopScores();
+      ws.send(JSON.stringify({ type: 'scoreboard_init', scores }));
+    } else {
+
+      ws.send(JSON.stringify({ type: 'welcome', message: 'Websocket Connected!' }));
+    }
+
+    ws.on('message', (data) => {
+
+      console.log('Received from frontend (WS):', data.toString());
+    });
+
+    ws.on('close', () => {
+      console.log('WebSocket client disconnected');
+    });
+  } catch (err) {
+    console.error('WS connection handler error', err);
+  }
+});
 
 connectToDatabase()
   .then(async () => {
     db = getDb();
     await db.collection('sessions').deleteMany({});
-    
-    server.listen(port, () => console.log(`Service running with WebSocket on port ${port}`));
 
+    server.listen(port, () => console.log(`Service running with WebSocket on port ${port}`));
   })
   .catch((err) => {
     console.error('Failed to connect to MongoDB:', err);
   });
-
-  wss.on('connection', (ws) => {
-    console.log("Client connected via Websocket");
-
-    ws.send(JSON.stringify({type: 'welcome', message: 'Websocket Connected!'}));
-    ws.on('message', (data) => {
-    console.log('Received from frontend:', data.toString());
-
-    broadcast({ type: 'broadcast', message: data.toString() });
-    });
-    ws.on('close', () => {
-    console.log('WebSocket client disconnected');
-  });
-});
 
 
 app.post('/api/register', async(req, res) => {
@@ -138,6 +174,32 @@ app.get('/api/scores', async (req, res) => {
       res.status(500).json({ message: 'Failed to fetch scores' });
     }
 });
+
+app.post("/api/score" , async(req, res) => {
+  try {
+    const {sessionId} = req.cookies;
+    if (!sessionId) return res.status(400).json({error: 'Not authenticated'});
+
+    const {session} = await db.collection('sessions').findOne({sessionId});
+    if (!session) return res.status(400).json({error: 'Invalid session'})
+
+    const username = session.username;
+    const submittedscore = req.body.score;
+    if (Number.isNaN(submittedscore)) return res.status(400).json({ error: 'invalid score'});
+
+    const user = await db.collection('users').findOne({username});
+    if (!user) return res.status(400).json({error: 'user not found'});
+
+    await db.collection('users').updateOne({username}, {$set: {score: submittedscore}});
+
+    await broadcastScoreboardUpdate();
+    return res.json({ success: true, message: 'Score updated', score: submittedscore });
+
+  } catch (err) {
+    console.error('Save score error', err);
+    res.status(500).json({ error: 'Failed to save score' });
+  }
+})
 
 app.get('/api/info/:name', async (req, res) => {
   const { name } = req.params;
