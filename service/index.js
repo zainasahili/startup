@@ -27,15 +27,6 @@ let db;
 const server = http.createServer(app);
 const wss = new WebSocketServer({server});
 
-function broadcast(data){
-  const message = JSON.stringify(data);
-  wss.clients.forEach(client => {
-    if (client.readyState === 1){
-      client.send(message);
-    }
-  });
-}
-
 async function getTopScores(limit = 10) {
   try {
     const rows = await db
