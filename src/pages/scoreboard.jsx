@@ -1,11 +1,30 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
+import { WebSocket } from 'ws';
 
 export function Scoreboard() {
-  const [scores, setScores] = useState([
-    { name: 'Alice', score: 85 },
-    { name: 'Bob', score: 72 },
-    { name: 'Carla', score: 90 },
-  ]);
+  const [scores, setScores] = useState([]);
+
+  useEffect(() => {
+    const ws = new WebSocket("wss://cultureconnect.click/ws/scoreboard");
+
+    ws.onopen = () => {
+      console.log("Connected to websocket scoreboard");
+    };
+
+    ws.onmessage = (event) => {
+      const msg = JSON.parse(event.data);
+
+      // When server sends initial or updated scores
+      if (msg.type === "scoreboard_init" || msg.type === "scoreboard_update") {
+        setScores(msg.scores);
+      }
+    };
+
+    ws.onerror = (err) => console.error("WebSocket Error:", err);
+
+    // Cleanup on page exit
+    return () => ws.close();
+  }, []);
 
   const updateScores = () => {
     const updated = scores.map((player) => ({

@@ -28,6 +28,7 @@ export default function App() {
   return (
    <BrowserRouter>
     <div className="body">
+        { showHeader && (
         <header>
         <h1 className="navbar-brand">CultureConnect</h1>
         <nav>
@@ -38,22 +39,22 @@ export default function App() {
                 </NavLink>
                 </li>
                 <li className="nav-item">
-                <NavLink to="map" className={({ isActive }) => isActive ? 'active-link' : 'nav-link'}> 
+                <NavLink to="/map" className={({ isActive }) => isActive ? 'active-link' : 'nav-link'}> 
                     Interactive Map
                 </NavLink>
                 </li>
                 <li className="nav-item">
-                <NavLink to="quiz"  className={({ isActive }) => isActive ? 'active-link' : 'nav-link'}>
+                <NavLink to="/quiz"  className={({ isActive }) => isActive ? 'active-link' : 'nav-link'}>
                     Quiz
                 </NavLink>
                 </li>
                 <li className="nav-item">
-                <NavLink to="scoreboard"  className={({ isActive }) => isActive ? 'active-link' : 'nav-link'}>
+                <NavLink to="/scoreboard"  className={({ isActive }) => isActive ? 'active-link' : 'nav-link'}>
                     ScoreBoard
                 </NavLink>
                 </li>
                 <li className="nav-item">
-                <NavLink to="login" className={({ isActive }) => isActive ? 'active-link' : 'nav-link'}>
+                <NavLink to="/login" className={({ isActive }) => isActive ? 'active-link' : 'nav-link'}>
                     Login / Register
                 </NavLink>
                 </li>
@@ -61,6 +62,7 @@ export default function App() {
             </menu>
         </nav>
         </header>
+        )}
 
         <Routes>
                   <Route path="/index.html" element={<Navigate to="/" replace />} />
