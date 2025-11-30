@@ -7,6 +7,7 @@ import OpenAI from "openai";
 import { connectToDatabase, getDb } from './database.js';
 import http from 'http';
 import { WebSocketServer } from 'ws';
+import fs from 'fs';
 
 
 
@@ -59,6 +60,17 @@ async function broadcastScoreboardUpdate() {
     console.error('broadcastScoreboardUpdate error', err);
   }
 }
+
+const countries = fs.readFileSync('../countries.txt', 'utf-8')
+                   .split('\n')
+                   .map(c => c.trim())
+                   .filter(Boolean); // remove empty lines
+
+
+function getRandomCountry() {
+  return countries[Math.floor(Math.random() * countries.length)];
+}
+
 
 
 wss.on('connection', async (ws, req) => {
@@ -288,20 +300,24 @@ app.get('/api/info/:name', async (req, res) => {
 app.get('/api/quiz', async (req, res) => {
   try {
 
+    const topics = ["traditions", "taboos", "values", "greetings", "languages"];
+    const randomCountry = getRandomCountry();
+    const randomTopic = topics[Math.floor(Math.random() * topics.length)];
+
     const completion = await openai.chat.completions.create({
       model: "gpt-4o-mini",
-      temperature: 1.1,
+      temperature: 1.2,
+      top_p: 0.9,
       messages: [
           {
           role: "user",
-          content: `Generate a single multiple-choice question about any country in the world. Choose a random different country each time.
-            Choose randomly from one of the following topics : traditions, taboos, values, greetings, or languages.
-            Respond ONLY in JSON format:
-            {
-              "question": "...",
-              "options": ["A", "B", "C"],
-              "correctAnswer": "...",
-            }`
+          content: `Generate a single multiple-choice question about ${randomCountry} focusing on ${randomTopic}. 
+              Respond ONLY in JSON format:
+              {
+                "question": "...",
+                "options": ["A", "B", "C"],
+                "correctAnswer": "..."
+              }`
           }
         ],
       response_format: { type: 'json_object' },
