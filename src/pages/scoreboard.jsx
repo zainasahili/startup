@@ -24,29 +24,10 @@ export function Scoreboard() {
     return () => ws.close();
   }, []);
 
-  // const updateScores = () => {
-  //   const updated = scores.map((player) => ({
-  //     name: player.name,
-  //     score: player.score + Math.floor(Math.random() * 10) - 3
-  //   }));
-  //   updated.sort((a, b) => b.score - a.score);
-  //   setScores(updated);
-  // };
-
   return (
     <main>
       <h2 style={{textAlign: "center"}}>Top Scores</h2>
-      {/* <div
-  id="live-chart"
-  style={{
-    border: "1px dashed rgb(135, 83, 148)",
-    padding: "1rem",
-    marginTop: "1rem",
-    display: "flex",
-    justifyContent: "center",
-    width: "50%"
-  }}
-> */}
+
   {scores.length === 0 ? (
     <p>No scores yet</p>
   ) : (
@@ -72,8 +53,6 @@ export function Scoreboard() {
       </tbody>
     </table>
   )}
-{/* </div> */}
-
     </main>
   );
 }

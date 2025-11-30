@@ -64,7 +64,7 @@ async function broadcastScoreboardUpdate() {
 const countries = fs.readFileSync('../countries.txt', 'utf-8')
                    .split('\n')
                    .map(c => c.trim())
-                   .filter(Boolean); // remove empty lines
+                   .filter(Boolean);
 
 
 function getRandomCountry() {
