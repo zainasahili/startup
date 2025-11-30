@@ -1,11 +1,11 @@
 import React, {useEffect, useState} from 'react';
-import { WebSocket } from 'ws';
 
 export function Scoreboard() {
   const [scores, setScores] = useState([]);
 
   useEffect(() => {
-    const ws = new WebSocket("wss://cultureconnect.click/ws/scoreboard");
+    const ws = new WebSocket("ws://localhost:4000/ws/scoreboard");
+
 
     ws.onopen = () => {
       console.log("Connected to websocket scoreboard");
@@ -36,27 +36,45 @@ export function Scoreboard() {
   return (
     <main>
       <h2>Top Scores</h2>
-        <ul id="score-list">
-          {scores.length === 0 && <li> No scores yet</li>}
-
-          {scores.map((player, index) => (
-            <li key={index}>
-              {index + 1}. <strong>{player.name}</strong> — {player.score}
-            </li>
-          ))} 
-        </ul>
-      {/* <button onClick={updateScores} style={{ margin: '1px 0', padding: '5px 10px', width:'200px'}}>
-        Refresh Score
-      </button> */}
       <div
-        id="live-chart"
-        style={{
-          border: '1px dashed rgb(135, 83, 148)',
-          padding: '1rem',
-          marginTop: '1rem',
-        }}
-      >
-      </div>
+  id="live-chart"
+  style={{
+    border: "1px dashed rgb(135, 83, 148)",
+    padding: "1rem",
+    marginTop: "1rem",
+    marginLeft: "15rem",
+    marginRight: "7rem",
+    width: "50%",
+    alignContent: "center"
+  }}
+>
+  {scores.length === 0 ? (
+    <p>No scores yet</p>
+  ) : (
+    <table style={{ width: "100%", borderCollapse: "collapse" }}>
+      <thead>
+        <tr>
+          <th style={{ textAlign: "center", padding: "6px" }}>User</th>
+          <th style={{ textAlign: "center", padding: "6px" }}>Score</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        {scores.map((player, index) => (
+          <tr key={index}>
+            <td style={{ padding: "6px", borderBottom: "1px dotted #875394" }}>
+              {player.username}
+            </td>
+            <td style={{ padding: "6px", borderBottom: "1px dotted #875394" }}>
+              {player.score}
+            </td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  )}
+</div>
+
     </main>
   );
 }

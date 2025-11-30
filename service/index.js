@@ -180,7 +180,7 @@ app.post("/api/score" , async(req, res) => {
     const {sessionId} = req.cookies;
     if (!sessionId) return res.status(400).json({error: 'Not authenticated'});
 
-    const {session} = await db.collection('sessions').findOne({sessionId});
+    const session = await db.collection('sessions').findOne({sessionId});
     if (!session) return res.status(400).json({error: 'Invalid session'})
 
     const username = session.username;
@@ -365,6 +365,11 @@ app.post('/api/quiz/submit', async (req, res) => {
             totalScore: updatedUser.score,
             message: `Correct! +5 points earned, Your score is ${updatedUser.score}`
           };
+          try {
+            await broadcastScoreboardUpdate();
+          } catch (err) {
+            console.warn('Failed to broadcast after quiz submit', err);
+          }
         } else if (user && !isCorrect) {
           response.message = 'Try Again!';
           response.totalScore = user.score;
